@@ -103,13 +103,6 @@ pipeline {
             }
         }
 
-        // --- 第二阶段：拉取代码 ---
-        stage('Checkout') {
-			steps {
-				echo ">>> 正在拉取代码..."
-                git branch: 'master', credentialsId: "${CREDENTIAL_ID}", url: "${GIT_URL}"
-            }
-        }
 
         // --- 第三阶段：构建项目 ---
         stage('Build') {
