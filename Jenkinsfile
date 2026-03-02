@@ -43,42 +43,42 @@ pipeline {
 					// 1. 网关模块
                         case 'ruoyi-gateway':
                             env.APP_PORT = '8080'
-                            env.JAR_SOURCE = 'ruoyi-gateway/target/ruoyi-gateway-*.jar'
+                            env.JAR_SOURCE = 'ruoyi-gateway/target/ruoyi-gateway.jar'
                             env.JAR_NAME = 'ruoyi-gateway.jar'
                             break
 
                         // 2. 认证中心
                         case 'ruoyi-auth':
                             env.APP_PORT = '9200'
-                            env.JAR_SOURCE = 'ruoyi-auth/target/ruoyi-auth-*.jar'
+                            env.JAR_SOURCE = 'ruoyi-auth/target/ruoyi-auth.jar'
                             env.JAR_NAME = 'ruoyi-auth.jar'
                             break
 
                         // 3. 系统模块 (注意路径在 ruoyi-modules 下)
                         case 'ruoyi-system':
                             env.APP_PORT = '9201'
-                            env.JAR_SOURCE = 'ruoyi-modules/ruoyi-system/target/ruoyi-system-*.jar'
+                            env.JAR_SOURCE = 'ruoyi-modules/ruoyi-system/target/ruoyi-system.jar'
                             env.JAR_NAME = 'ruoyi-system.jar'
                             break
 
                         // 4. 定时任务 (注意路径在 ruoyi-modules 下)
                         case 'ruoyi-job':
                             env.APP_PORT = '9203'
-                            env.JAR_SOURCE = 'ruoyi-modules/ruoyi-job/target/ruoyi-job-*.jar'
+                            env.JAR_SOURCE = 'ruoyi-modules/ruoyi-job/target/ruoyi-job.jar'
                             env.JAR_NAME = 'ruoyi-job.jar'
                             break
 
                         // 5. 文件服务 (注意路径在 ruoyi-modules 下)
                         case 'ruoyi-file':
                             env.APP_PORT = '9300'
-                            env.JAR_SOURCE = 'ruoyi-modules/ruoyi-file/target/ruoyi-file-*.jar'
+                            env.JAR_SOURCE = 'ruoyi-modules/ruoyi-file/target/ruoyi-file.jar'
                             env.JAR_NAME = 'ruoyi-file.jar'
                             break
 
                         // 6. 代码生成 (注意路径在 ruoyi-modules 下)
                         case 'ruoyi-gen':
                             env.APP_PORT = '9202'
-                            env.JAR_SOURCE = 'ruoyi-modules/ruoyi-gen/target/ruoyi-gen-*.jar'
+                            env.JAR_SOURCE = 'ruoyi-modules/ruoyi-gen/target/ruoyi-gen.jar'
                             env.JAR_NAME = 'ruoyi-gen.jar'
                             break
 
@@ -86,7 +86,7 @@ pipeline {
                         case 'ruoyi-monitor':
                             env.APP_PORT = '9100'
                             // 注意：ruoyi-visual 下面的模块名可能叫 ruoyi-visual-monitor
-                            env.JAR_SOURCE = 'ruoyi-visual/ruoyi-visual-monitor/target/ruoyi-visual-monitor-*.jar'
+                            env.JAR_SOURCE = 'ruoyi-visual/ruoyi-visual-monitor/target/ruoyi-visual-monitor.jar'
                             env.JAR_NAME = 'ruoyi-monitor.jar'
                             break
 
