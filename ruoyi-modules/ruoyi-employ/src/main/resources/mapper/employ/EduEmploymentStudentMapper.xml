@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.employ.mapper.EduEmploymentStudentMapper">
+    
+    <resultMap type="EduEmploymentStudent" id="EduEmploymentStudentResult">
+        <result property="employmentId"    column="employment_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="majorId"    column="major_id"    />
+        <result property="deliveryId"    column="delivery_id"    />
+        <result property="graduationYear"    column="graduation_year"    />
+        <result property="employmentStatus"    column="employment_status"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="position"    column="position"    />
+        <result property="workCity"    column="work_city"    />
+        <result property="salary"    column="salary"    />
+        <result property="contractType"    column="contract_type"    />
+        <result property="contractStart"    column="contract_start"    />
+        <result property="contractEnd"    column="contract_end"    />
+        <result property="offerTime"    column="offer_time"    />
+        <result property="employmentSource"    column="employment_source"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduEmploymentStudentVo">
+        select employment_id, student_id, major_id, delivery_id, graduation_year, employment_status, enterprise_id, position, work_city, salary, contract_type, contract_start, contract_end, offer_time, employment_source, create_time, update_time, update_user_id, is_deleted from edu_employment_student
+    </sql>
+
+    <select id="selectEduEmploymentStudentList" parameterType="EduEmploymentStudent" resultMap="EduEmploymentStudentResult">
+        <include refid="selectEduEmploymentStudentVo"/>
+        <where>  
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="majorId != null "> and major_id = #{majorId}</if>
+            <if test="deliveryId != null "> and delivery_id = #{deliveryId}</if>
+            <if test="graduationYear != null "> and graduation_year = #{graduationYear}</if>
+            <if test="employmentStatus != null "> and employment_status = #{employmentStatus}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+            <if test="position != null  and position != ''"> and position = #{position}</if>
+            <if test="workCity != null  and workCity != ''"> and work_city = #{workCity}</if>
+            <if test="salary != null "> and salary = #{salary}</if>
+            <if test="contractType != null "> and contract_type = #{contractType}</if>
+            <if test="contractStart != null "> and contract_start = #{contractStart}</if>
+            <if test="contractEnd != null "> and contract_end = #{contractEnd}</if>
+            <if test="offerTime != null "> and offer_time = #{offerTime}</if>
+            <if test="employmentSource != null  and employmentSource != ''"> and employment_source = #{employmentSource}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduEmploymentStudentByEmploymentId" parameterType="Long" resultMap="EduEmploymentStudentResult">
+        <include refid="selectEduEmploymentStudentVo"/>
+        where employment_id = #{employmentId}
+    </select>
+
+    <insert id="insertEduEmploymentStudent" parameterType="EduEmploymentStudent">
+        insert into edu_employment_student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="employmentId != null">employment_id,</if>
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="majorId != null">major_id,</if>
+            <if test="deliveryId != null">delivery_id,</if>
+            <if test="graduationYear != null">graduation_year,</if>
+            <if test="employmentStatus != null">employment_status,</if>
+            <if test="enterpriseId != null">enterprise_id,</if>
+            <if test="position != null">position,</if>
+            <if test="workCity != null">work_city,</if>
+            <if test="salary != null">salary,</if>
+            <if test="contractType != null">contract_type,</if>
+            <if test="contractStart != null">contract_start,</if>
+            <if test="contractEnd != null">contract_end,</if>
+            <if test="offerTime != null">offer_time,</if>
+            <if test="employmentSource != null">employment_source,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="employmentId != null">#{employmentId},</if>
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="majorId != null">#{majorId},</if>
+            <if test="deliveryId != null">#{deliveryId},</if>
+            <if test="graduationYear != null">#{graduationYear},</if>
+            <if test="employmentStatus != null">#{employmentStatus},</if>
+            <if test="enterpriseId != null">#{enterpriseId},</if>
+            <if test="position != null">#{position},</if>
+            <if test="workCity != null">#{workCity},</if>
+            <if test="salary != null">#{salary},</if>
+            <if test="contractType != null">#{contractType},</if>
+            <if test="contractStart != null">#{contractStart},</if>
+            <if test="contractEnd != null">#{contractEnd},</if>
+            <if test="offerTime != null">#{offerTime},</if>
+            <if test="employmentSource != null">#{employmentSource},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduEmploymentStudent" parameterType="EduEmploymentStudent">
+        update edu_employment_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null and studentId != ''">student_id = #{studentId},</if>
+            <if test="majorId != null">major_id = #{majorId},</if>
+            <if test="deliveryId != null">delivery_id = #{deliveryId},</if>
+            <if test="graduationYear != null">graduation_year = #{graduationYear},</if>
+            <if test="employmentStatus != null">employment_status = #{employmentStatus},</if>
+            <if test="enterpriseId != null">enterprise_id = #{enterpriseId},</if>
+            <if test="position != null">position = #{position},</if>
+            <if test="workCity != null">work_city = #{workCity},</if>
+            <if test="salary != null">salary = #{salary},</if>
+            <if test="contractType != null">contract_type = #{contractType},</if>
+            <if test="contractStart != null">contract_start = #{contractStart},</if>
+            <if test="contractEnd != null">contract_end = #{contractEnd},</if>
+            <if test="offerTime != null">offer_time = #{offerTime},</if>
+            <if test="employmentSource != null">employment_source = #{employmentSource},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where employment_id = #{employmentId}
+    </update>
+
+    <delete id="deleteEduEmploymentStudentByEmploymentId" parameterType="Long">
+        delete from edu_employment_student where employment_id = #{employmentId}
+    </delete>
+
+    <delete id="deleteEduEmploymentStudentByEmploymentIds" parameterType="String">
+        delete from edu_employment_student where employment_id in 
+        <foreach item="employmentId" collection="array" open="(" separator="," close=")">
+            #{employmentId}
+        </foreach>
+    </delete>
+</mapper>

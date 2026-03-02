@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.affair.mapper.EduAffairUserCurrentStatusMapper">
+    
+    <resultMap type="EduAffairUserCurrentStatus" id="EduAffairUserCurrentStatusResult">
+        <result property="currentStatusId"    column="current_status_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="statusType"    column="status_type"    />
+        <result property="statusDesc"    column="status_desc"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="sourceApplyId"    column="source_apply_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="updateUserName"    column="update_user_name"    />
+    </resultMap>
+
+    <sql id="selectEduAffairUserCurrentStatusVo">
+        select current_status_id, user_id, status_type, status_desc, start_time, end_time, source_apply_id, create_time, update_time, update_user_id, update_user_name from edu_affair_user_current_status
+    </sql>
+
+    <select id="selectEduAffairUserCurrentStatusList" parameterType="EduAffairUserCurrentStatus" resultMap="EduAffairUserCurrentStatusResult">
+        <include refid="selectEduAffairUserCurrentStatusVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="statusType != null "> and status_type = #{statusType}</if>
+            <if test="statusDesc != null  and statusDesc != ''"> and status_desc = #{statusDesc}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="sourceApplyId != null "> and source_apply_id = #{sourceApplyId}</if>
+            <if test="updateUserId != null "> and update_user_id = #{updateUserId}</if>
+            <if test="updateUserName != null  and updateUserName != ''"> and update_user_name like concat('%', #{updateUserName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectEduAffairUserCurrentStatusByCurrentStatusId" parameterType="Long" resultMap="EduAffairUserCurrentStatusResult">
+        <include refid="selectEduAffairUserCurrentStatusVo"/>
+        where current_status_id = #{currentStatusId}
+    </select>
+
+    <select id="selectEduAffairUserCurrentStatusByUserId" parameterType="Long" resultMap="EduAffairUserCurrentStatusResult">
+        <include refid="selectEduAffairUserCurrentStatusVo"/>
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertEduAffairUserCurrentStatus" parameterType="EduAffairUserCurrentStatus" useGeneratedKeys="true" keyProperty="currentStatusId">
+        insert into edu_affair_user_current_status
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="statusType != null">status_type,</if>
+            <if test="statusDesc != null and statusDesc != ''">status_desc,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="sourceApplyId != null">source_apply_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null">update_user_id,</if>
+            <if test="updateUserName != null and updateUserName != ''">update_user_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="statusType != null">#{statusType},</if>
+            <if test="statusDesc != null and statusDesc != ''">#{statusDesc},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="sourceApplyId != null">#{sourceApplyId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null">#{updateUserId},</if>
+            <if test="updateUserName != null and updateUserName != ''">#{updateUserName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduAffairUserCurrentStatus" parameterType="EduAffairUserCurrentStatus">
+        update edu_affair_user_current_status
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="statusType != null">status_type = #{statusType},</if>
+            <if test="statusDesc != null and statusDesc != ''">status_desc = #{statusDesc},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="sourceApplyId != null">source_apply_id = #{sourceApplyId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null">update_user_id = #{updateUserId},</if>
+            <if test="updateUserName != null and updateUserName != ''">update_user_name = #{updateUserName},</if>
+        </trim>
+        where current_status_id = #{currentStatusId}
+    </update>
+
+    <delete id="deleteEduAffairUserCurrentStatusByCurrentStatusId" parameterType="Long">
+        delete from edu_affair_user_current_status where current_status_id = #{currentStatusId}
+    </delete>
+
+    <delete id="deleteEduAffairUserCurrentStatusByCurrentStatusIds" parameterType="String">
+        delete from edu_affair_user_current_status where current_status_id in 
+        <foreach item="currentStatusId" collection="array" open="(" separator="," close=")">
+            #{currentStatusId}
+        </foreach>
+    </delete>
+</mapper>

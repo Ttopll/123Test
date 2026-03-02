@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.practice.mapper.EduPracticeEvaluationMapper">
+    
+    <resultMap type="EduPracticeEvaluation" id="EduPracticeEvaluationResult">
+        <result property="evaluationId"    column="evaluation_id"    />
+        <result property="activityId"    column="activity_id"    />
+        <result property="signupId"    column="signup_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="studentName"    column="student_name"    />
+        <result property="practiveResult"    column="practive_result"    />
+        <result property="evaluationType"    column="evaluation_type"    />
+        <result property="score"    column="score"    />
+        <result property="evaluationContent"    column="evaluation_content"    />
+        <result property="evaluationTime"    column="evaluation_time"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="isAnonymous"    column="is_anonymous"    />
+        <result property="replyContent"    column="reply_content"    />
+        <result property="replyTime"    column="reply_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduPracticeEvaluationVo">
+        select evaluation_id, activity_id, signup_id, student_id, student_name, practive_result, evaluation_type, score, evaluation_content, evaluation_time, create_user_id, is_anonymous, reply_content, reply_time, create_time, update_time, update_user_id, is_deleted from edu_practice_evaluation
+    </sql>
+
+    <select id="selectEduPracticeEvaluationList" parameterType="EduPracticeEvaluation" resultMap="EduPracticeEvaluationResult">
+        <include refid="selectEduPracticeEvaluationVo"/>
+        <where>  
+            <if test="activityId != null  and activityId != ''"> and activity_id = #{activityId}</if>
+            <if test="signupId != null "> and signup_id = #{signupId}</if>
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="studentName != null  and studentName != ''"> and student_name like concat('%', #{studentName}, '%')</if>
+            <if test="practiveResult != null  and practiveResult != ''"> and practive_result = #{practiveResult}</if>
+            <if test="evaluationType != null "> and evaluation_type = #{evaluationType}</if>
+            <if test="score != null "> and score = #{score}</if>
+            <if test="evaluationContent != null  and evaluationContent != ''"> and evaluation_content = #{evaluationContent}</if>
+            <if test="evaluationTime != null "> and evaluation_time = #{evaluationTime}</if>
+            <if test="createUserId != null  and createUserId != ''"> and create_user_id = #{createUserId}</if>
+            <if test="isAnonymous != null "> and is_anonymous = #{isAnonymous}</if>
+            <if test="replyContent != null  and replyContent != ''"> and reply_content = #{replyContent}</if>
+            <if test="replyTime != null "> and reply_time = #{replyTime}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduPracticeEvaluationByEvaluationId" parameterType="Long" resultMap="EduPracticeEvaluationResult">
+        <include refid="selectEduPracticeEvaluationVo"/>
+        where evaluation_id = #{evaluationId}
+    </select>
+
+    <insert id="insertEduPracticeEvaluation" parameterType="EduPracticeEvaluation">
+        insert into edu_practice_evaluation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="evaluationId != null">evaluation_id,</if>
+            <if test="activityId != null and activityId != ''">activity_id,</if>
+            <if test="signupId != null">signup_id,</if>
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="studentName != null and studentName != ''">student_name,</if>
+            <if test="practiveResult != null and practiveResult != ''">practive_result,</if>
+            <if test="evaluationType != null">evaluation_type,</if>
+            <if test="score != null">score,</if>
+            <if test="evaluationContent != null and evaluationContent != ''">evaluation_content,</if>
+            <if test="evaluationTime != null">evaluation_time,</if>
+            <if test="createUserId != null and createUserId != ''">create_user_id,</if>
+            <if test="isAnonymous != null">is_anonymous,</if>
+            <if test="replyContent != null">reply_content,</if>
+            <if test="replyTime != null">reply_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="evaluationId != null">#{evaluationId},</if>
+            <if test="activityId != null and activityId != ''">#{activityId},</if>
+            <if test="signupId != null">#{signupId},</if>
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="studentName != null and studentName != ''">#{studentName},</if>
+            <if test="practiveResult != null and practiveResult != ''">#{practiveResult},</if>
+            <if test="evaluationType != null">#{evaluationType},</if>
+            <if test="score != null">#{score},</if>
+            <if test="evaluationContent != null and evaluationContent != ''">#{evaluationContent},</if>
+            <if test="evaluationTime != null">#{evaluationTime},</if>
+            <if test="createUserId != null and createUserId != ''">#{createUserId},</if>
+            <if test="isAnonymous != null">#{isAnonymous},</if>
+            <if test="replyContent != null">#{replyContent},</if>
+            <if test="replyTime != null">#{replyTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduPracticeEvaluation" parameterType="EduPracticeEvaluation">
+        update edu_practice_evaluation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="activityId != null and activityId != ''">activity_id = #{activityId},</if>
+            <if test="signupId != null">signup_id = #{signupId},</if>
+            <if test="studentId != null and studentId != ''">student_id = #{studentId},</if>
+            <if test="studentName != null and studentName != ''">student_name = #{studentName},</if>
+            <if test="practiveResult != null and practiveResult != ''">practive_result = #{practiveResult},</if>
+            <if test="evaluationType != null">evaluation_type = #{evaluationType},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="evaluationContent != null and evaluationContent != ''">evaluation_content = #{evaluationContent},</if>
+            <if test="evaluationTime != null">evaluation_time = #{evaluationTime},</if>
+            <if test="createUserId != null and createUserId != ''">create_user_id = #{createUserId},</if>
+            <if test="isAnonymous != null">is_anonymous = #{isAnonymous},</if>
+            <if test="replyContent != null">reply_content = #{replyContent},</if>
+            <if test="replyTime != null">reply_time = #{replyTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where evaluation_id = #{evaluationId}
+    </update>
+
+    <delete id="deleteEduPracticeEvaluationByEvaluationId" parameterType="Long">
+        delete from edu_practice_evaluation where evaluation_id = #{evaluationId}
+    </delete>
+
+    <delete id="deleteEduPracticeEvaluationByEvaluationIds" parameterType="String">
+        delete from edu_practice_evaluation where evaluation_id in 
+        <foreach item="evaluationId" collection="array" open="(" separator="," close=")">
+            #{evaluationId}
+        </foreach>
+    </delete>
+</mapper>

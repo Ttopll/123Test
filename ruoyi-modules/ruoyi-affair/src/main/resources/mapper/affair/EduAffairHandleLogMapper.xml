@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.affair.mapper.EduAffairHandleLogMapper">
+
+    <resultMap type="EduAffairHandleLog" id="EduAffairHandleLogResult">
+        <result property="logId"    column="log_id"    />
+        <result property="applyId"    column="apply_id"    />
+        <result property="handleUserId"    column="handle_user_id"    />
+        <result property="handleUserName"    column="handle_user_name"    />
+        <result property="handleUserRole"    column="handle_user_role"    />
+        <result property="beforeStatus"    column="before_status"    />
+        <result property="afterStatus"    column="after_status"    />
+        <result property="handleTime"    column="handle_time"    />
+        <result property="handleContent"    column="handle_content"    />
+        <result property="handleAttachUrls"    column="handle_attach_urls"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <!-- 优化：查询Vo默认添加is_deleted = 0，过滤已逻辑删除的数据 -->
+    <sql id="selectEduAffairHandleLogVo">
+        select log_id, apply_id, handle_user_id, handle_user_name, handle_user_role, before_status, after_status, handle_time, handle_content, handle_attach_urls, is_deleted
+        from edu_affair_handle_log
+        where is_deleted = 0
+    </sql>
+
+    <select id="selectEduAffairHandleLogList" parameterType="EduAffairHandleLog" resultMap="EduAffairHandleLogResult">
+        <include refid="selectEduAffairHandleLogVo"/>
+        <where>
+            <if test="applyId != null  and applyId != ''"> and apply_id = #{applyId}</if>
+            <if test="handleUserId != null  and handleUserId != ''"> and handle_user_id = #{handleUserId}</if>
+            <if test="handleUserName != null  and handleUserName != ''"> and handle_user_name like concat('%', #{handleUserName}, '%')</if>
+            <if test="handleUserRole != null  and handleUserRole != ''"> and handle_user_role = #{handleUserRole}</if>
+            <if test="beforeStatus != null "> and before_status = #{beforeStatus}</if>
+            <if test="afterStatus != null "> and after_status = #{afterStatus}</if>
+            <if test="handleTime != null "> and handle_time = #{handleTime}</if>
+            <if test="handleContent != null  and handleContent != ''"> and handle_content = #{handleContent}</if>
+            <if test="handleAttachUrls != null  and handleAttachUrls != ''"> and handle_attach_urls = #{handleAttachUrls}</if>
+            <!-- 移除is_deleted条件，因selectEduAffairHandleLogVo已默认过滤 -->
+        </where>
+    </select>
+
+    <select id="selectEduAffairHandleLogByLogId" parameterType="Long" resultMap="EduAffairHandleLogResult">
+        <include refid="selectEduAffairHandleLogVo"/>
+        and log_id = #{logId}
+    </select>
+
+    <insert id="insertEduAffairHandleLog" parameterType="EduAffairHandleLog">
+        insert into edu_affair_handle_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="logId != null">log_id,</if>
+            <if test="applyId != null and applyId != ''">apply_id,</if>
+            <if test="handleUserId != null and handleUserId != ''">handle_user_id,</if>
+            <if test="handleUserName != null and handleUserName != ''">handle_user_name,</if>
+            <if test="handleUserRole != null and handleUserRole != ''">handle_user_role,</if>
+            <if test="beforeStatus != null">before_status,</if>
+            <if test="afterStatus != null">after_status,</if>
+            <if test="handleTime != null">handle_time,</if>
+            <if test="handleContent != null and handleContent != ''">handle_content,</if>
+            <if test="handleAttachUrls != null">handle_attach_urls,</if>
+            <!-- 插入时默认设置is_deleted为0（未删除） -->
+            <if test="isDeleted == null">is_deleted,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="logId != null">#{logId},</if>
+            <if test="applyId != null and applyId != ''">#{applyId},</if>
+            <if test="handleUserId != null and handleUserId != ''">#{handleUserId},</if>
+            <if test="handleUserName != null and handleUserName != ''">#{handleUserName},</if>
+            <if test="handleUserRole != null and handleUserRole != ''">#{handleUserRole},</if>
+            <if test="beforeStatus != null">#{beforeStatus},</if>
+            <if test="afterStatus != null">#{afterStatus},</if>
+            <if test="handleTime != null">#{handleTime},</if>
+            <if test="handleContent != null and handleContent != ''">#{handleContent},</if>
+            <if test="handleAttachUrls != null">#{handleAttachUrls},</if>
+            <!-- 插入时默认值为0 -->
+            <if test="isDeleted == null">0,</if>
+        </trim>
+    </insert>
+
+    <!-- 单条逻辑删除：将is_deleted改为1，补充更新操作时间/操作人（可选） -->
+    <update id="deleteEduAffairHandleLogByLogId" parameterType="java.util.Map">
+        update edu_affair_handle_log
+        set is_deleted = 1
+        <!-- 可选：补充操作人/操作时间，需在Mapper接口添加参数 -->
+        <!-- , update_time = CURRENT_TIMESTAMP, update_user_id = #{updateUserId} -->
+        where log_id = #{logId}
+        and is_deleted = 0
+    </update>
+
+    <!-- 批量逻辑删除：将is_deleted改为1 -->
+    <update id="deleteEduAffairHandleLogByLogIds" parameterType="java.util.Map">
+        update edu_affair_handle_log
+        set is_deleted = 1
+        <!-- 可选：补充操作人/操作时间 -->
+        <!-- , update_time = CURRENT_TIMESTAMP, update_user_id = #{updateUserId} -->
+        where log_id in
+        <foreach item="logId" collection="array" open="(" separator="," close=")">
+            #{logId}
+        </foreach>
+        and is_deleted = 0
+    </update>
+</mapper>

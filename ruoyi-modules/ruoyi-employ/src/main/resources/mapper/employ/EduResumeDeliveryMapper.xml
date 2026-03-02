@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.employ.mapper.EduResumeDeliveryMapper">
+    
+    <resultMap type="EduResumeDelivery" id="EduResumeDeliveryResult">
+        <result property="deliveryId"    column="delivery_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="resumeId"    column="resume_id"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="positionId"    column="position_id"    />
+        <result property="deliveryTime"    column="delivery_time"    />
+        <result property="deliveryStatus"    column="delivery_status"    />
+        <result property="feedbackContent"    column="feedback_content"    />
+        <result property="feedbackTime"    column="feedback_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduResumeDeliveryVo">
+        select delivery_id, student_id, resume_id, enterprise_id, position_id, delivery_time, delivery_status, feedback_content, feedback_time, create_time, update_time, update_user_id, is_deleted from edu_resume_delivery
+    </sql>
+
+    <select id="selectEduResumeDeliveryList" parameterType="EduResumeDelivery" resultMap="EduResumeDeliveryResult">
+        <include refid="selectEduResumeDeliveryVo"/>
+        <where>  
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="resumeId != null "> and resume_id = #{resumeId}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+            <if test="positionId != null  and positionId != ''"> and position_id = #{positionId}</if>
+            <if test="deliveryTime != null "> and delivery_time = #{deliveryTime}</if>
+            <if test="deliveryStatus != null "> and delivery_status = #{deliveryStatus}</if>
+            <if test="feedbackContent != null  and feedbackContent != ''"> and feedback_content = #{feedbackContent}</if>
+            <if test="feedbackTime != null "> and feedback_time = #{feedbackTime}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduResumeDeliveryByDeliveryId" parameterType="Long" resultMap="EduResumeDeliveryResult">
+        <include refid="selectEduResumeDeliveryVo"/>
+        where delivery_id = #{deliveryId}
+    </select>
+
+    <insert id="insertEduResumeDelivery" parameterType="EduResumeDelivery">
+        insert into edu_resume_delivery
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deliveryId != null">delivery_id,</if>
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="resumeId != null">resume_id,</if>
+            <if test="enterpriseId != null and enterpriseId != ''">enterprise_id,</if>
+            <if test="positionId != null and positionId != ''">position_id,</if>
+            <if test="deliveryTime != null">delivery_time,</if>
+            <if test="deliveryStatus != null">delivery_status,</if>
+            <if test="feedbackContent != null">feedback_content,</if>
+            <if test="feedbackTime != null">feedback_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deliveryId != null">#{deliveryId},</if>
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="resumeId != null">#{resumeId},</if>
+            <if test="enterpriseId != null and enterpriseId != ''">#{enterpriseId},</if>
+            <if test="positionId != null and positionId != ''">#{positionId},</if>
+            <if test="deliveryTime != null">#{deliveryTime},</if>
+            <if test="deliveryStatus != null">#{deliveryStatus},</if>
+            <if test="feedbackContent != null">#{feedbackContent},</if>
+            <if test="feedbackTime != null">#{feedbackTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduResumeDelivery" parameterType="EduResumeDelivery">
+        update edu_resume_delivery
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null and studentId != ''">student_id = #{studentId},</if>
+            <if test="resumeId != null">resume_id = #{resumeId},</if>
+            <if test="enterpriseId != null and enterpriseId != ''">enterprise_id = #{enterpriseId},</if>
+            <if test="positionId != null and positionId != ''">position_id = #{positionId},</if>
+            <if test="deliveryTime != null">delivery_time = #{deliveryTime},</if>
+            <if test="deliveryStatus != null">delivery_status = #{deliveryStatus},</if>
+            <if test="feedbackContent != null">feedback_content = #{feedbackContent},</if>
+            <if test="feedbackTime != null">feedback_time = #{feedbackTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where delivery_id = #{deliveryId}
+    </update>
+
+    <delete id="deleteEduResumeDeliveryByDeliveryId" parameterType="Long">
+        delete from edu_resume_delivery where delivery_id = #{deliveryId}
+    </delete>
+
+    <delete id="deleteEduResumeDeliveryByDeliveryIds" parameterType="String">
+        delete from edu_resume_delivery where delivery_id in 
+        <foreach item="deliveryId" collection="array" open="(" separator="," close=")">
+            #{deliveryId}
+        </foreach>
+    </delete>
+</mapper>

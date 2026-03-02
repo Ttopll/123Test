@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.attendance.mapper.EduAttendanceBiometricMapper">
+    
+    <resultMap type="EduAttendanceBiometric" id="EduAttendanceBiometricResult">
+        <result property="infoId"    column="info_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="faceImage"    column="face_image"    />
+        <result property="fingerprintImage"    column="fingerprint_image"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduAttendanceBiometricVo">
+        select info_id, user_id, face_image, fingerprint_image, status, create_time, update_time, update_user_id, is_deleted from edu_attendance_biometric
+    </sql>
+
+    <select id="selectEduAttendanceBiometricList" parameterType="EduAttendanceBiometric" resultMap="EduAttendanceBiometricResult">
+        <include refid="selectEduAttendanceBiometricVo"/>
+        <where>  
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="faceImage != null  and faceImage != ''"> and face_image = #{faceImage}</if>
+            <if test="fingerprintImage != null  and fingerprintImage != ''"> and fingerprint_image = #{fingerprintImage}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduAttendanceBiometricByInfoId" parameterType="Long" resultMap="EduAttendanceBiometricResult">
+        <include refid="selectEduAttendanceBiometricVo"/>
+        where info_id = #{infoId}
+    </select>
+
+    <insert id="insertEduAttendanceBiometric" parameterType="EduAttendanceBiometric">
+        insert into edu_attendance_biometric
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="infoId != null">info_id,</if>
+            <if test="userId != null and userId != ''">user_id,</if>
+            <if test="faceImage != null">face_image,</if>
+            <if test="fingerprintImage != null">fingerprint_image,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="infoId != null">#{infoId},</if>
+            <if test="userId != null and userId != ''">#{userId},</if>
+            <if test="faceImage != null">#{faceImage},</if>
+            <if test="fingerprintImage != null">#{fingerprintImage},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduAttendanceBiometric" parameterType="EduAttendanceBiometric">
+        update edu_attendance_biometric
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="faceImage != null">face_image = #{faceImage},</if>
+            <if test="fingerprintImage != null">fingerprint_image = #{fingerprintImage},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where info_id = #{infoId}
+    </update>
+
+    <delete id="deleteEduAttendanceBiometricByInfoId" parameterType="Long">
+        delete from edu_attendance_biometric where info_id = #{infoId}
+    </delete>
+
+    <delete id="deleteEduAttendanceBiometricByInfoIds" parameterType="String">
+        delete from edu_attendance_biometric where info_id in 
+        <foreach item="infoId" collection="array" open="(" separator="," close=")">
+            #{infoId}
+        </foreach>
+    </delete>
+</mapper>

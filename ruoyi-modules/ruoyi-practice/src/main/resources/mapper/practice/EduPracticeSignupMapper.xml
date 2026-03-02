@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.practice.mapper.EduPracticeSignupMapper">
+    
+    <resultMap type="EduPracticeSignup" id="EduPracticeSignupResult">
+        <result property="signupId"    column="signup_id"    />
+        <result property="activityId"    column="activity_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="signupTime"    column="signup_time"    />
+        <result property="materialUrls"    column="material_urls"    />
+        <result property="auditStatus"    column="audit_status"    />
+        <result property="auditUserId"    column="audit_user_id"    />
+        <result property="auditTime"    column="audit_time"    />
+        <result property="auditRemark"    column="audit_remark"    />
+        <result property="participateStatus"    column="participate_status"    />
+        <result property="signinTime"    column="signin_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduPracticeSignupVo">
+        select signup_id, activity_id, student_id, signup_time, material_urls, audit_status, audit_user_id, audit_time, audit_remark, participate_status, signin_time, remark, create_time, update_time, update_user_id, is_deleted from edu_practice_signup
+    </sql>
+
+    <select id="selectEduPracticeSignupList" parameterType="EduPracticeSignup" resultMap="EduPracticeSignupResult">
+        <include refid="selectEduPracticeSignupVo"/>
+        <where>  
+            <if test="activityId != null  and activityId != ''"> and activity_id = #{activityId}</if>
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="signupTime != null "> and signup_time = #{signupTime}</if>
+            <if test="materialUrls != null  and materialUrls != ''"> and material_urls = #{materialUrls}</if>
+            <if test="auditStatus != null "> and audit_status = #{auditStatus}</if>
+            <if test="auditUserId != null  and auditUserId != ''"> and audit_user_id = #{auditUserId}</if>
+            <if test="auditTime != null "> and audit_time = #{auditTime}</if>
+            <if test="auditRemark != null  and auditRemark != ''"> and audit_remark = #{auditRemark}</if>
+            <if test="participateStatus != null "> and participate_status = #{participateStatus}</if>
+            <if test="signinTime != null "> and signin_time = #{signinTime}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduPracticeSignupBySignupId" parameterType="Long" resultMap="EduPracticeSignupResult">
+        <include refid="selectEduPracticeSignupVo"/>
+        where signup_id = #{signupId}
+    </select>
+
+    <insert id="insertEduPracticeSignup" parameterType="EduPracticeSignup">
+        insert into edu_practice_signup
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="signupId != null">signup_id,</if>
+            <if test="activityId != null and activityId != ''">activity_id,</if>
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="signupTime != null">signup_time,</if>
+            <if test="materialUrls != null">material_urls,</if>
+            <if test="auditStatus != null">audit_status,</if>
+            <if test="auditUserId != null">audit_user_id,</if>
+            <if test="auditTime != null">audit_time,</if>
+            <if test="auditRemark != null">audit_remark,</if>
+            <if test="participateStatus != null">participate_status,</if>
+            <if test="signinTime != null">signin_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="signupId != null">#{signupId},</if>
+            <if test="activityId != null and activityId != ''">#{activityId},</if>
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="signupTime != null">#{signupTime},</if>
+            <if test="materialUrls != null">#{materialUrls},</if>
+            <if test="auditStatus != null">#{auditStatus},</if>
+            <if test="auditUserId != null">#{auditUserId},</if>
+            <if test="auditTime != null">#{auditTime},</if>
+            <if test="auditRemark != null">#{auditRemark},</if>
+            <if test="participateStatus != null">#{participateStatus},</if>
+            <if test="signinTime != null">#{signinTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduPracticeSignup" parameterType="EduPracticeSignup">
+        update edu_practice_signup
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="activityId != null and activityId != ''">activity_id = #{activityId},</if>
+            <if test="studentId != null and studentId != ''">student_id = #{studentId},</if>
+            <if test="signupTime != null">signup_time = #{signupTime},</if>
+            <if test="materialUrls != null">material_urls = #{materialUrls},</if>
+            <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+            <if test="auditUserId != null">audit_user_id = #{auditUserId},</if>
+            <if test="auditTime != null">audit_time = #{auditTime},</if>
+            <if test="auditRemark != null">audit_remark = #{auditRemark},</if>
+            <if test="participateStatus != null">participate_status = #{participateStatus},</if>
+            <if test="signinTime != null">signin_time = #{signinTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where signup_id = #{signupId}
+    </update>
+
+    <delete id="deleteEduPracticeSignupBySignupId" parameterType="Long">
+        delete from edu_practice_signup where signup_id = #{signupId}
+    </delete>
+
+    <delete id="deleteEduPracticeSignupBySignupIds" parameterType="String">
+        delete from edu_practice_signup where signup_id in 
+        <foreach item="signupId" collection="array" open="(" separator="," close=")">
+            #{signupId}
+        </foreach>
+    </delete>
+</mapper>

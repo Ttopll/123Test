@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.attendance.mapper.EduSigninDeviceMapper">
+    
+    <resultMap type="EduSigninDevice" id="EduSigninDeviceResult">
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceCode"    column="device_code"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="deviceType"    column="device_type"    />
+        <result property="deviceIp"    column="device_ip"    />
+        <result property="deviceMac"    column="device_mac"    />
+        <result property="deviceAddr"    column="device_addr"    />
+        <result property="bindUserId"    column="bind_user_id"    />
+        <result property="deviceStatus"    column="device_status"    />
+        <result property="onlineStatus"    column="online_status"    />
+        <result property="lastOnlineTime"    column="last_online_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduSigninDeviceVo">
+        select device_id, device_code, device_name, device_type, device_ip, device_mac, device_addr, bind_user_id, device_status, online_status, last_online_time, create_time, update_time, update_user_id, is_deleted from edu_signin_device
+    </sql>
+
+    <select id="selectEduSigninDeviceList" parameterType="EduSigninDevice" resultMap="EduSigninDeviceResult">
+        <include refid="selectEduSigninDeviceVo"/>
+        <where>  
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code = #{deviceCode}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="deviceType != null "> and device_type = #{deviceType}</if>
+            <if test="deviceIp != null  and deviceIp != ''"> and device_ip = #{deviceIp}</if>
+            <if test="deviceMac != null  and deviceMac != ''"> and device_mac = #{deviceMac}</if>
+            <if test="deviceAddr != null  and deviceAddr != ''"> and device_addr = #{deviceAddr}</if>
+            <if test="bindUserId != null  and bindUserId != ''"> and bind_user_id = #{bindUserId}</if>
+            <if test="deviceStatus != null "> and device_status = #{deviceStatus}</if>
+            <if test="onlineStatus != null "> and online_status = #{onlineStatus}</if>
+            <if test="lastOnlineTime != null "> and last_online_time = #{lastOnlineTime}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduSigninDeviceByDeviceId" parameterType="Long" resultMap="EduSigninDeviceResult">
+        <include refid="selectEduSigninDeviceVo"/>
+        where device_id = #{deviceId}
+    </select>
+
+    <insert id="insertEduSigninDevice" parameterType="EduSigninDevice">
+        insert into edu_signin_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">device_id,</if>
+            <if test="deviceCode != null and deviceCode != ''">device_code,</if>
+            <if test="deviceName != null and deviceName != ''">device_name,</if>
+            <if test="deviceType != null">device_type,</if>
+            <if test="deviceIp != null">device_ip,</if>
+            <if test="deviceMac != null">device_mac,</if>
+            <if test="deviceAddr != null and deviceAddr != ''">device_addr,</if>
+            <if test="bindUserId != null">bind_user_id,</if>
+            <if test="deviceStatus != null">device_status,</if>
+            <if test="onlineStatus != null">online_status,</if>
+            <if test="lastOnlineTime != null">last_online_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="deviceCode != null and deviceCode != ''">#{deviceCode},</if>
+            <if test="deviceName != null and deviceName != ''">#{deviceName},</if>
+            <if test="deviceType != null">#{deviceType},</if>
+            <if test="deviceIp != null">#{deviceIp},</if>
+            <if test="deviceMac != null">#{deviceMac},</if>
+            <if test="deviceAddr != null and deviceAddr != ''">#{deviceAddr},</if>
+            <if test="bindUserId != null">#{bindUserId},</if>
+            <if test="deviceStatus != null">#{deviceStatus},</if>
+            <if test="onlineStatus != null">#{onlineStatus},</if>
+            <if test="lastOnlineTime != null">#{lastOnlineTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduSigninDevice" parameterType="EduSigninDevice">
+        update edu_signin_device
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceCode != null and deviceCode != ''">device_code = #{deviceCode},</if>
+            <if test="deviceName != null and deviceName != ''">device_name = #{deviceName},</if>
+            <if test="deviceType != null">device_type = #{deviceType},</if>
+            <if test="deviceIp != null">device_ip = #{deviceIp},</if>
+            <if test="deviceMac != null">device_mac = #{deviceMac},</if>
+            <if test="deviceAddr != null and deviceAddr != ''">device_addr = #{deviceAddr},</if>
+            <if test="bindUserId != null">bind_user_id = #{bindUserId},</if>
+            <if test="deviceStatus != null">device_status = #{deviceStatus},</if>
+            <if test="onlineStatus != null">online_status = #{onlineStatus},</if>
+            <if test="lastOnlineTime != null">last_online_time = #{lastOnlineTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where device_id = #{deviceId}
+    </update>
+
+    <delete id="deleteEduSigninDeviceByDeviceId" parameterType="Long">
+        delete from edu_signin_device where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEduSigninDeviceByDeviceIds" parameterType="String">
+        delete from edu_signin_device where device_id in 
+        <foreach item="deviceId" collection="array" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

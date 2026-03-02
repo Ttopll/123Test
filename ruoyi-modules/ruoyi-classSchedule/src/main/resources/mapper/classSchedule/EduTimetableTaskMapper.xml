@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.classSchedule.mapper.EduTimetableTaskMapper">
+    
+    <resultMap type="EduTimetableTask" id="EduTimetableTaskResult">
+        <result property="taskId"    column="task_id"    />
+        <result property="taskName"    column="task_name"    />
+        <result property="semester"    column="semester"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="grade"    column="grade"    />
+        <result property="startDate"    column="start_date"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="ruleIds"    column="rule_ids"    />
+        <result property="taskStatus"    column="task_status"    />
+        <result property="conflictCount"    column="conflict_count"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="executeTime"    column="execute_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduTimetableTaskVo">
+        select task_id, task_name, semester, dept_id, grade, start_date, end_date, rule_ids, task_status, conflict_count, create_user_id, execute_time, remark, create_time, update_time, update_user_id, is_deleted from edu_timetable_task
+    </sql>
+
+    <select id="selectEduTimetableTaskList" parameterType="EduTimetableTask" resultMap="EduTimetableTaskResult">
+        <include refid="selectEduTimetableTaskVo"/>
+        <where>  
+            <if test="taskName != null  and taskName != ''"> and task_name like concat('%', #{taskName}, '%')</if>
+            <if test="semester != null  and semester != ''"> and semester = #{semester}</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="startDate != null "> and start_date = #{startDate}</if>
+            <if test="endDate != null "> and end_date = #{endDate}</if>
+            <if test="ruleIds != null  and ruleIds != ''"> and rule_ids = #{ruleIds}</if>
+            <if test="taskStatus != null "> and task_status = #{taskStatus}</if>
+            <if test="conflictCount != null "> and conflict_count = #{conflictCount}</if>
+            <if test="createUserId != null  and createUserId != ''"> and create_user_id = #{createUserId}</if>
+            <if test="executeTime != null "> and execute_time = #{executeTime}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduTimetableTaskByTaskId" parameterType="Long" resultMap="EduTimetableTaskResult">
+        <include refid="selectEduTimetableTaskVo"/>
+        where task_id = #{taskId}
+    </select>
+
+    <insert id="insertEduTimetableTask" parameterType="EduTimetableTask" useGeneratedKeys="true" keyProperty="taskId">
+        insert into edu_timetable_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taskName != null and taskName != ''">task_name,</if>
+            <if test="semester != null and semester != ''">semester,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="grade != null">grade,</if>
+            <if test="startDate != null">start_date,</if>
+            <if test="endDate != null">end_date,</if>
+            <if test="ruleIds != null and ruleIds != ''">rule_ids,</if>
+            <if test="taskStatus != null">task_status,</if>
+            <if test="conflictCount != null">conflict_count,</if>
+            <if test="createUserId != null and createUserId != ''">create_user_id,</if>
+            <if test="executeTime != null">execute_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taskName != null and taskName != ''">#{taskName},</if>
+            <if test="semester != null and semester != ''">#{semester},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="grade != null">#{grade},</if>
+            <if test="startDate != null">#{startDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="ruleIds != null and ruleIds != ''">#{ruleIds},</if>
+            <if test="taskStatus != null">#{taskStatus},</if>
+            <if test="conflictCount != null">#{conflictCount},</if>
+            <if test="createUserId != null and createUserId != ''">#{createUserId},</if>
+            <if test="executeTime != null">#{executeTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduTimetableTask" parameterType="EduTimetableTask">
+        update edu_timetable_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskName != null and taskName != ''">task_name = #{taskName},</if>
+            <if test="semester != null and semester != ''">semester = #{semester},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="grade != null">grade = #{grade},</if>
+            <if test="startDate != null">start_date = #{startDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="ruleIds != null and ruleIds != ''">rule_ids = #{ruleIds},</if>
+            <if test="taskStatus != null">task_status = #{taskStatus},</if>
+            <if test="conflictCount != null">conflict_count = #{conflictCount},</if>
+            <if test="createUserId != null and createUserId != ''">create_user_id = #{createUserId},</if>
+            <if test="executeTime != null">execute_time = #{executeTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where task_id = #{taskId}
+    </update>
+
+    <delete id="deleteEduTimetableTaskByTaskId" parameterType="Long">
+        delete from edu_timetable_task where task_id = #{taskId}
+    </delete>
+
+    <delete id="deleteEduTimetableTaskByTaskIds" parameterType="String">
+        delete from edu_timetable_task where task_id in 
+        <foreach item="taskId" collection="array" open="(" separator="," close=")">
+            #{taskId}
+        </foreach>
+    </delete>
+</mapper>

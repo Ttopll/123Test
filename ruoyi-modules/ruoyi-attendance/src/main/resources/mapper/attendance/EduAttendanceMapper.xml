@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.attendance.mapper.EduAttendanceMapper">
+    
+    <resultMap type="EduAttendance" id="EduAttendanceResult">
+        <result property="attendId"    column="attend_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="attendDate"    column="attend_date"    />
+        <result property="attendType"    column="attend_type"    />
+        <result property="signTime"    column="sign_time"    />
+        <result property="supplementApply"    column="supplement_apply"    />
+        <result property="supplementReason"    column="supplement_reason"    />
+        <result property="supplementResult"    column="supplement_result"    />
+        <result property="approveUserId"    column="approve_user_id"    />
+        <result property="approveTime"    column="approve_time"    />
+        <result property="semester"    column="semester"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduAttendanceVo">
+        select attend_id, student_id, course_id, attend_date, attend_type, sign_time, supplement_apply, supplement_reason, supplement_result, approve_user_id, approve_time, semester, create_time, update_time, update_user_id, is_deleted from edu_attendance
+    </sql>
+
+    <select id="selectEduAttendanceList" parameterType="EduAttendance" resultMap="EduAttendanceResult">
+        <include refid="selectEduAttendanceVo"/>
+        <where>  
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="courseId != null "> and course_id = #{courseId}</if>
+            <if test="attendDate != null "> and attend_date = #{attendDate}</if>
+            <if test="attendType != null "> and attend_type = #{attendType}</if>
+            <if test="signTime != null "> and sign_time = #{signTime}</if>
+            <if test="supplementApply != null "> and supplement_apply = #{supplementApply}</if>
+            <if test="supplementReason != null  and supplementReason != ''"> and supplement_reason = #{supplementReason}</if>
+            <if test="supplementResult != null "> and supplement_result = #{supplementResult}</if>
+            <if test="approveUserId != null  and approveUserId != ''"> and approve_user_id = #{approveUserId}</if>
+            <if test="approveTime != null "> and approve_time = #{approveTime}</if>
+            <if test="semester != null  and semester != ''"> and semester = #{semester}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduAttendanceByAttendId" parameterType="Long" resultMap="EduAttendanceResult">
+        <include refid="selectEduAttendanceVo"/>
+        where attend_id = #{attendId}
+    </select>
+
+    <insert id="insertEduAttendance" parameterType="EduAttendance">
+        insert into edu_attendance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="attendId != null">attend_id,</if>
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="courseId != null">course_id,</if>
+            <if test="attendDate != null">attend_date,</if>
+            <if test="attendType != null">attend_type,</if>
+            <if test="signTime != null">sign_time,</if>
+            <if test="supplementApply != null">supplement_apply,</if>
+            <if test="supplementReason != null">supplement_reason,</if>
+            <if test="supplementResult != null">supplement_result,</if>
+            <if test="approveUserId != null">approve_user_id,</if>
+            <if test="approveTime != null">approve_time,</if>
+            <if test="semester != null and semester != ''">semester,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="attendId != null">#{attendId},</if>
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="courseId != null">#{courseId},</if>
+            <if test="attendDate != null">#{attendDate},</if>
+            <if test="attendType != null">#{attendType},</if>
+            <if test="signTime != null">#{signTime},</if>
+            <if test="supplementApply != null">#{supplementApply},</if>
+            <if test="supplementReason != null">#{supplementReason},</if>
+            <if test="supplementResult != null">#{supplementResult},</if>
+            <if test="approveUserId != null">#{approveUserId},</if>
+            <if test="approveTime != null">#{approveTime},</if>
+            <if test="semester != null and semester != ''">#{semester},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduAttendance" parameterType="EduAttendance">
+        update edu_attendance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null and studentId != ''">student_id = #{studentId},</if>
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="attendDate != null">attend_date = #{attendDate},</if>
+            <if test="attendType != null">attend_type = #{attendType},</if>
+            <if test="signTime != null">sign_time = #{signTime},</if>
+            <if test="supplementApply != null">supplement_apply = #{supplementApply},</if>
+            <if test="supplementReason != null">supplement_reason = #{supplementReason},</if>
+            <if test="supplementResult != null">supplement_result = #{supplementResult},</if>
+            <if test="approveUserId != null">approve_user_id = #{approveUserId},</if>
+            <if test="approveTime != null">approve_time = #{approveTime},</if>
+            <if test="semester != null and semester != ''">semester = #{semester},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where attend_id = #{attendId}
+    </update>
+
+    <delete id="deleteEduAttendanceByAttendId" parameterType="Long">
+        delete from edu_attendance where attend_id = #{attendId}
+    </delete>
+
+    <delete id="deleteEduAttendanceByAttendIds" parameterType="String">
+        delete from edu_attendance where attend_id in 
+        <foreach item="attendId" collection="array" open="(" separator="," close=")">
+            #{attendId}
+        </foreach>
+    </delete>
+</mapper>

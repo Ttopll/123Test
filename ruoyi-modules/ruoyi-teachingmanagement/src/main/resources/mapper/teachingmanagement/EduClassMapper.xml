@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.teachingmanagement.mapper.EduClassMapper">
+    
+    <resultMap type="EduClass" id="EduClassResult">
+        <result property="classId"    column="class_id"    />
+        <result property="className"    column="class_name"    />
+        <result property="classCode"    column="class_code"    />
+        <result property="majorId"    column="major_id"    />
+        <result property="grade"    column="grade"    />
+        <result property="headTeacherId"    column="head_teacher_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduClassVo">
+        select class_id, class_name, class_code, major_id, grade, head_teacher_id, create_time, update_time, update_user_id, is_deleted from edu_class
+    </sql>
+
+    <select id="selectEduClassList" parameterType="EduClass" resultMap="EduClassResult">
+        <include refid="selectEduClassVo"/>
+        <where>  
+            <if test="className != null  and className != ''"> and class_name like concat('%', #{className}, '%')</if>
+            <if test="classCode != null  and classCode != ''"> and class_code = #{classCode}</if>
+            <if test="majorId != null "> and major_id = #{majorId}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="headTeacherId != null  and headTeacherId != ''"> and head_teacher_id = #{headTeacherId}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduClassByClassId" parameterType="Long" resultMap="EduClassResult">
+        <include refid="selectEduClassVo"/>
+        where class_id = #{classId}
+    </select>
+
+    <insert id="insertEduClass" parameterType="EduClass">
+        insert into edu_class
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="classId != null">class_id,</if>
+            <if test="className != null and className != ''">class_name,</if>
+            <if test="classCode != null and classCode != ''">class_code,</if>
+            <if test="majorId != null">major_id,</if>
+            <if test="grade != null and grade != ''">grade,</if>
+            <if test="headTeacherId != null">head_teacher_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="classId != null">#{classId},</if>
+            <if test="className != null and className != ''">#{className},</if>
+            <if test="classCode != null and classCode != ''">#{classCode},</if>
+            <if test="majorId != null">#{majorId},</if>
+            <if test="grade != null and grade != ''">#{grade},</if>
+            <if test="headTeacherId != null">#{headTeacherId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduClass" parameterType="EduClass">
+        update edu_class
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="className != null and className != ''">class_name = #{className},</if>
+            <if test="classCode != null and classCode != ''">class_code = #{classCode},</if>
+            <if test="majorId != null">major_id = #{majorId},</if>
+            <if test="grade != null and grade != ''">grade = #{grade},</if>
+            <if test="headTeacherId != null">head_teacher_id = #{headTeacherId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where class_id = #{classId}
+    </update>
+
+    <delete id="deleteEduClassByClassId" parameterType="Long">
+        delete from edu_class where class_id = #{classId}
+    </delete>
+
+    <delete id="deleteEduClassByClassIds" parameterType="String">
+        delete from edu_class where class_id in 
+        <foreach item="classId" collection="array" open="(" separator="," close=")">
+            #{classId}
+        </foreach>
+    </delete>
+</mapper>

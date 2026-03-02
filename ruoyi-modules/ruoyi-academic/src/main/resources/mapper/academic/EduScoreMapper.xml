@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.academic.mapper.EduScoreMapper">
+    
+    <resultMap type="EduScore" id="EduScoreResult">
+        <result property="scoreId"    column="score_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="teacherId"    column="teacher_id"    />
+        <result property="semester"    column="semester"    />
+        <result property="examType"    column="exam_type"    />
+        <result property="score"    column="score"    />
+        <result property="scoreLevel"    column="score_level"    />
+        <result property="isPass"    column="is_pass"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduScoreVo">
+        select score_id, student_id, course_id, teacher_id, semester, exam_type, score, score_level, is_pass, remark, create_time, update_time, update_user_id, is_deleted from edu_score
+    </sql>
+
+    <select id="selectEduScoreList" parameterType="EduScore" resultMap="EduScoreResult">
+        <include refid="selectEduScoreVo"/>
+        <where>  
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="courseId != null "> and course_id = #{courseId}</if>
+            <if test="teacherId != null  and teacherId != ''"> and teacher_id = #{teacherId}</if>
+            <if test="semester != null  and semester != ''"> and semester = #{semester}</if>
+            <if test="examType != null "> and exam_type = #{examType}</if>
+            <if test="score != null "> and score = #{score}</if>
+            <if test="scoreLevel != null  and scoreLevel != ''"> and score_level = #{scoreLevel}</if>
+            <if test="isPass != null "> and is_pass = #{isPass}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduScoreByScoreId" parameterType="Long" resultMap="EduScoreResult">
+        <include refid="selectEduScoreVo"/>
+        where score_id = #{scoreId}
+    </select>
+
+    <insert id="insertEduScore" parameterType="EduScore">
+        insert into edu_score
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scoreId != null">score_id,</if>
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="courseId != null">course_id,</if>
+            <if test="teacherId != null and teacherId != ''">teacher_id,</if>
+            <if test="semester != null and semester != ''">semester,</if>
+            <if test="examType != null">exam_type,</if>
+            <if test="score != null">score,</if>
+            <if test="scoreLevel != null">score_level,</if>
+            <if test="isPass != null">is_pass,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="scoreId != null">#{scoreId},</if>
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="courseId != null">#{courseId},</if>
+            <if test="teacherId != null and teacherId != ''">#{teacherId},</if>
+            <if test="semester != null and semester != ''">#{semester},</if>
+            <if test="examType != null">#{examType},</if>
+            <if test="score != null">#{score},</if>
+            <if test="scoreLevel != null">#{scoreLevel},</if>
+            <if test="isPass != null">#{isPass},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduScore" parameterType="EduScore">
+        update edu_score
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null and studentId != ''">student_id = #{studentId},</if>
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
+            <if test="semester != null and semester != ''">semester = #{semester},</if>
+            <if test="examType != null">exam_type = #{examType},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="scoreLevel != null">score_level = #{scoreLevel},</if>
+            <if test="isPass != null">is_pass = #{isPass},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where score_id = #{scoreId}
+    </update>
+
+    <delete id="deleteEduScoreByScoreId" parameterType="Long">
+        delete from edu_score where score_id = #{scoreId}
+    </delete>
+
+    <delete id="deleteEduScoreByScoreIds" parameterType="String">
+        delete from edu_score where score_id in 
+        <foreach item="scoreId" collection="array" open="(" separator="," close=")">
+            #{scoreId}
+        </foreach>
+    </delete>
+</mapper>

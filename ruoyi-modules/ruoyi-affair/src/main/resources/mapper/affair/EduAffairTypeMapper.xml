@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.affair.mapper.EduAffairTypeMapper">
+
+    <resultMap type="EduAffairType" id="EduAffairTypeResult">
+        <result property="affairTypeId"    column="affair_type_id"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="typeCode"    column="type_code"    />
+        <result property="applyRole"    column="apply_role"    />
+        <result property="handleDept"    column="handle_dept"    />
+        <result property="handleRole"    column="handle_role"    />
+        <result property="handleLimit"    column="handle_limit"    />
+        <result property="status"    column="status"    />
+        <result property="sort"    column="sort"    />
+        <result property="remark"    column="remark"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <!-- 核心优化：通用查询片段默认添加is_deleted=0，自动过滤已逻辑删除数据 -->
+    <sql id="selectEduAffairTypeVo">
+        select affair_type_id, type_name, type_code, apply_role, handle_dept, handle_role, handle_limit, status, sort, remark, is_deleted
+        from edu_affair_type
+        where is_deleted = 0
+    </sql>
+
+    <select id="selectEduAffairTypeList" parameterType="EduAffairType" resultMap="EduAffairTypeResult">
+        <include refid="selectEduAffairTypeVo"/>
+        <where>
+            <if test="typeName != null  and typeName != ''"> and type_name like concat('%', #{typeName}, '%')</if>
+            <if test="typeCode != null  and typeCode != ''"> and type_code = #{typeCode}</if>
+            <if test="applyRole != null  and applyRole != ''"> and apply_role = #{applyRole}</if>
+            <if test="handleDept != null  and handleDept != ''"> and handle_dept = #{handleDept}</if>
+            <if test="handleRole != null  and handleRole != ''"> and handle_role = #{handleRole}</if>
+            <if test="handleLimit != null "> and handle_limit = #{handleLimit}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <!-- 移除is_deleted条件，通用片段已默认过滤，无需重复判断 -->
+        </where>
+    </select>
+
+    <select id="selectEduAffairTypeByAffairTypeId" parameterType="Long" resultMap="EduAffairTypeResult">
+        <include refid="selectEduAffairTypeVo"/>
+        and affair_type_id = #{affairTypeId}
+    </select>
+
+    <insert id="insertEduAffairType" parameterType="EduAffairType">
+        insert into edu_affair_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="affairTypeId != null">affair_type_id,</if>
+            <if test="typeName != null and typeName != ''">type_name,</if>
+            <if test="typeCode != null and typeCode != ''">type_code,</if>
+            <if test="applyRole != null and applyRole != ''">apply_role,</if>
+            <if test="handleDept != null and handleDept != ''">handle_dept,</if>
+            <if test="handleRole != null and handleRole != ''">handle_role,</if>
+            <if test="handleLimit != null">handle_limit,</if>
+            <if test="status != null">status,</if>
+            <if test="sort != null">sort,</if>
+            <if test="remark != null">remark,</if>
+            <!-- 插入时默认设置is_deleted为0，无需业务层手动传值 -->
+            <if test="isDeleted == null">is_deleted,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="affairTypeId != null">#{affairTypeId},</if>
+            <if test="typeName != null and typeName != ''">#{typeName},</if>
+            <if test="typeCode != null and typeCode != ''">#{typeCode},</if>
+            <if test="applyRole != null and applyRole != ''">#{applyRole},</if>
+            <if test="handleDept != null and handleDept != ''">#{handleDept},</if>
+            <if test="handleRole != null and handleRole != ''">#{handleRole},</if>
+            <if test="handleLimit != null">#{handleLimit},</if>
+            <if test="status != null">#{status},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="remark != null">#{remark},</if>
+            <!-- 未传isDeleted时，默认赋值0（未删除） -->
+            <if test="isDeleted == null">0,</if>
+        </trim>
+    </insert>
+
+    <update id="updateEduAffairType" parameterType="EduAffairType">
+        update edu_affair_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="typeName != null and typeName != ''">type_name = #{typeName},</if>
+            <if test="typeCode != null and typeCode != ''">type_code = #{typeCode},</if>
+            <if test="applyRole != null and applyRole != ''">apply_role = #{applyRole},</if>
+            <if test="handleDept != null and handleDept != ''">handle_dept = #{handleDept},</if>
+            <if test="handleRole != null and handleRole != ''">handle_role = #{handleRole},</if>
+            <if test="handleLimit != null">handle_limit = #{handleLimit},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where affair_type_id = #{affairTypeId}
+        <!-- 防止更新已逻辑删除的数据，保证数据安全性 -->
+        and is_deleted = 0
+    </update>
+
+    <!-- 单条逻辑删除：delete改update，设置is_deleted=1，防止重复删除 -->
+    <update id="deleteEduAffairTypeByAffairTypeId" parameterType="java.util.Map">
+        update edu_affair_type
+        set is_deleted = 1
+        where affair_type_id = #{affairTypeId}
+        and is_deleted = 0
+    </update>
+
+    <!-- 批量逻辑删除：delete改update，遍历数组设置is_deleted=1 -->
+    <update id="deleteEduAffairTypeByAffairTypeIds" parameterType="java.util.Map">
+        update edu_affair_type
+        set is_deleted = 1
+        where affair_type_id in
+        <foreach item="affairTypeId" collection="array" open="(" separator="," close=")">
+            #{affairTypeId}
+        </foreach>
+        and is_deleted = 0
+    </update>
+</mapper>

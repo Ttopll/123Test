@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.academic.mapper.EduWarningMapper">
+    
+    <resultMap type="EduWarning" id="EduWarningResult">
+        <result property="warningId"    column="warning_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="warningType"    column="warning_type"    />
+        <result property="warningLevel"    column="warning_level"    />
+        <result property="reason"    column="reason"    />
+        <result property="handleStatus"    column="handle_status"    />
+        <result property="handleUserId"    column="handle_user_id"    />
+        <result property="handleRemark"    column="handle_remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="handleTime"    column="handle_time"    />
+        <result property="verifyUserId"    column="verify_user_id"    />
+        <result property="verifyTime"    column="verify_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduWarningVo">
+        select warning_id, student_id, warning_type, warning_level, reason, handle_status, handle_user_id, handle_remark, create_time, update_time, update_user_id, handle_time, verify_user_id, verify_time, is_deleted from edu_warning
+    </sql>
+
+    <select id="selectEduWarningList" parameterType="EduWarning" resultMap="EduWarningResult">
+        <include refid="selectEduWarningVo"/>
+        <where>  
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="warningType != null "> and warning_type = #{warningType}</if>
+            <if test="warningLevel != null "> and warning_level = #{warningLevel}</if>
+            <if test="reason != null  and reason != ''"> and reason = #{reason}</if>
+            <if test="handleStatus != null "> and handle_status = #{handleStatus}</if>
+            <if test="handleUserId != null  and handleUserId != ''"> and handle_user_id = #{handleUserId}</if>
+            <if test="handleRemark != null  and handleRemark != ''"> and handle_remark = #{handleRemark}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="handleTime != null "> and handle_time = #{handleTime}</if>
+            <if test="verifyUserId != null  and verifyUserId != ''"> and verify_user_id = #{verifyUserId}</if>
+            <if test="verifyTime != null "> and verify_time = #{verifyTime}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduWarningByWarningId" parameterType="Long" resultMap="EduWarningResult">
+        <include refid="selectEduWarningVo"/>
+        where warning_id = #{warningId}
+    </select>
+
+    <insert id="insertEduWarning" parameterType="EduWarning">
+        insert into edu_warning
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warningId != null">warning_id,</if>
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="warningType != null">warning_type,</if>
+            <if test="warningLevel != null">warning_level,</if>
+            <if test="reason != null and reason != ''">reason,</if>
+            <if test="handleStatus != null">handle_status,</if>
+            <if test="handleUserId != null">handle_user_id,</if>
+            <if test="handleRemark != null">handle_remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="handleTime != null">handle_time,</if>
+            <if test="verifyUserId != null and verifyUserId != ''">verify_user_id,</if>
+            <if test="verifyTime != null">verify_time,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warningId != null">#{warningId},</if>
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="warningType != null">#{warningType},</if>
+            <if test="warningLevel != null">#{warningLevel},</if>
+            <if test="reason != null and reason != ''">#{reason},</if>
+            <if test="handleStatus != null">#{handleStatus},</if>
+            <if test="handleUserId != null">#{handleUserId},</if>
+            <if test="handleRemark != null">#{handleRemark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="handleTime != null">#{handleTime},</if>
+            <if test="verifyUserId != null and verifyUserId != ''">#{verifyUserId},</if>
+            <if test="verifyTime != null">#{verifyTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduWarning" parameterType="EduWarning">
+        update edu_warning
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null and studentId != ''">student_id = #{studentId},</if>
+            <if test="warningType != null">warning_type = #{warningType},</if>
+            <if test="warningLevel != null">warning_level = #{warningLevel},</if>
+            <if test="reason != null and reason != ''">reason = #{reason},</if>
+            <if test="handleStatus != null">handle_status = #{handleStatus},</if>
+            <if test="handleUserId != null">handle_user_id = #{handleUserId},</if>
+            <if test="handleRemark != null">handle_remark = #{handleRemark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="handleTime != null">handle_time = #{handleTime},</if>
+            <if test="verifyUserId != null and verifyUserId != ''">verify_user_id = #{verifyUserId},</if>
+            <if test="verifyTime != null">verify_time = #{verifyTime},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where warning_id = #{warningId}
+    </update>
+
+    <delete id="deleteEduWarningByWarningId" parameterType="Long">
+        delete from edu_warning where warning_id = #{warningId}
+    </delete>
+
+    <delete id="deleteEduWarningByWarningIds" parameterType="String">
+        delete from edu_warning where warning_id in 
+        <foreach item="warningId" collection="array" open="(" separator="," close=")">
+            #{warningId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.evaluate.mapper.EduTeacherEvaluationConfigMapper">
+    
+    <resultMap type="EduTeacherEvaluationConfig" id="EduTeacherEvaluationConfigResult">
+        <result property="configId"    column="config_id"    />
+        <result property="evaluationName"    column="evaluation_name"    />
+        <result property="semester"    column="semester"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="targetRole"    column="target_role"    />
+        <result property="evaluatedRole"    column="evaluated_role"    />
+        <result property="evaluationDimensions"    column="evaluation_dimensions"    />
+        <result property="scoreRule"    column="score_rule"    />
+        <result property="isAnonymous"    column="is_anonymous"    />
+        <result property="isAuditRequired"    column="is_audit_required"    />
+        <result property="status"    column="status"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectEduTeacherEvaluationConfigVo">
+        select config_id, evaluation_name, semester, start_time, end_time, target_role, evaluated_role, evaluation_dimensions, score_rule, is_anonymous, is_audit_required, status, create_user_id, create_time, update_time, update_user_id, is_deleted, remark from edu_teacher_evaluation_config
+    </sql>
+
+    <select id="selectEduTeacherEvaluationConfigList" parameterType="EduTeacherEvaluationConfig" resultMap="EduTeacherEvaluationConfigResult">
+        <include refid="selectEduTeacherEvaluationConfigVo"/>
+        <where>  
+            <if test="evaluationName != null  and evaluationName != ''"> and evaluation_name like concat('%', #{evaluationName}, '%')</if>
+            <if test="semester != null  and semester != ''"> and semester = #{semester}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="targetRole != null  and targetRole != ''"> and target_role = #{targetRole}</if>
+            <if test="evaluatedRole != null  and evaluatedRole != ''"> and evaluated_role = #{evaluatedRole}</if>
+            <if test="evaluationDimensions != null  and evaluationDimensions != ''"> and evaluation_dimensions = #{evaluationDimensions}</if>
+            <if test="scoreRule != null  and scoreRule != ''"> and score_rule = #{scoreRule}</if>
+            <if test="isAnonymous != null "> and is_anonymous = #{isAnonymous}</if>
+            <if test="isAuditRequired != null "> and is_audit_required = #{isAuditRequired}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="createUserId != null  and createUserId != ''"> and create_user_id = #{createUserId}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduTeacherEvaluationConfigByConfigId" parameterType="Long" resultMap="EduTeacherEvaluationConfigResult">
+        <include refid="selectEduTeacherEvaluationConfigVo"/>
+        where config_id = #{configId}
+    </select>
+
+    <insert id="insertEduTeacherEvaluationConfig" parameterType="EduTeacherEvaluationConfig">
+        insert into edu_teacher_evaluation_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="configId != null">config_id,</if>
+            <if test="evaluationName != null and evaluationName != ''">evaluation_name,</if>
+            <if test="semester != null and semester != ''">semester,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="targetRole != null and targetRole != ''">target_role,</if>
+            <if test="evaluatedRole != null and evaluatedRole != ''">evaluated_role,</if>
+            <if test="evaluationDimensions != null and evaluationDimensions != ''">evaluation_dimensions,</if>
+            <if test="scoreRule != null and scoreRule != ''">score_rule,</if>
+            <if test="isAnonymous != null">is_anonymous,</if>
+            <if test="isAuditRequired != null">is_audit_required,</if>
+            <if test="status != null">status,</if>
+            <if test="createUserId != null and createUserId != ''">create_user_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="configId != null">#{configId},</if>
+            <if test="evaluationName != null and evaluationName != ''">#{evaluationName},</if>
+            <if test="semester != null and semester != ''">#{semester},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="targetRole != null and targetRole != ''">#{targetRole},</if>
+            <if test="evaluatedRole != null and evaluatedRole != ''">#{evaluatedRole},</if>
+            <if test="evaluationDimensions != null and evaluationDimensions != ''">#{evaluationDimensions},</if>
+            <if test="scoreRule != null and scoreRule != ''">#{scoreRule},</if>
+            <if test="isAnonymous != null">#{isAnonymous},</if>
+            <if test="isAuditRequired != null">#{isAuditRequired},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createUserId != null and createUserId != ''">#{createUserId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduTeacherEvaluationConfig" parameterType="EduTeacherEvaluationConfig">
+        update edu_teacher_evaluation_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="evaluationName != null and evaluationName != ''">evaluation_name = #{evaluationName},</if>
+            <if test="semester != null and semester != ''">semester = #{semester},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="targetRole != null and targetRole != ''">target_role = #{targetRole},</if>
+            <if test="evaluatedRole != null and evaluatedRole != ''">evaluated_role = #{evaluatedRole},</if>
+            <if test="evaluationDimensions != null and evaluationDimensions != ''">evaluation_dimensions = #{evaluationDimensions},</if>
+            <if test="scoreRule != null and scoreRule != ''">score_rule = #{scoreRule},</if>
+            <if test="isAnonymous != null">is_anonymous = #{isAnonymous},</if>
+            <if test="isAuditRequired != null">is_audit_required = #{isAuditRequired},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createUserId != null and createUserId != ''">create_user_id = #{createUserId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where config_id = #{configId}
+    </update>
+
+    <delete id="deleteEduTeacherEvaluationConfigByConfigId" parameterType="Long">
+        delete from edu_teacher_evaluation_config where config_id = #{configId}
+    </delete>
+
+    <delete id="deleteEduTeacherEvaluationConfigByConfigIds" parameterType="String">
+        delete from edu_teacher_evaluation_config where config_id in 
+        <foreach item="configId" collection="array" open="(" separator="," close=")">
+            #{configId}
+        </foreach>
+    </delete>
+</mapper>

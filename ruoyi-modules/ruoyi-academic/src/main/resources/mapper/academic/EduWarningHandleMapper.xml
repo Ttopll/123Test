@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.academic.mapper.EduWarningHandleMapper">
+    
+    <resultMap type="EduWarningHandle" id="EduWarningHandleResult">
+        <result property="handleId"    column="handle_id"    />
+        <result property="warningId"    column="warning_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="handlerId"    column="handler_id"    />
+        <result property="handleType"    column="handle_type"    />
+        <result property="handleTitle"    column="handle_title"    />
+        <result property="handleContent"    column="handle_content"    />
+        <result property="handleStatus"    column="handle_status"    />
+        <result property="handleTime"    column="handle_time"    />
+        <result property="completeTime"    column="complete_time"    />
+        <result property="verifyUserId"    column="verify_user_id"    />
+        <result property="verifyTime"    column="verify_time"    />
+        <result property="verifyRemark"    column="verify_remark"    />
+        <result property="attachUrl"    column="attach_url"    />
+        <result property="remark"    column="remark"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduWarningHandleVo">
+        select handle_id, warning_id, student_id, handler_id, handle_type, handle_title, handle_content, handle_status, handle_time, complete_time, verify_user_id, verify_time, verify_remark, attach_url, remark, update_time, update_user_id, is_deleted from edu_warning_handle
+    </sql>
+
+    <select id="selectEduWarningHandleList" parameterType="EduWarningHandle" resultMap="EduWarningHandleResult">
+        <include refid="selectEduWarningHandleVo"/>
+        <where>  
+            <if test="warningId != null "> and warning_id = #{warningId}</if>
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="handlerId != null  and handlerId != ''"> and handler_id = #{handlerId}</if>
+            <if test="handleType != null "> and handle_type = #{handleType}</if>
+            <if test="handleTitle != null  and handleTitle != ''"> and handle_title = #{handleTitle}</if>
+            <if test="handleContent != null  and handleContent != ''"> and handle_content = #{handleContent}</if>
+            <if test="handleStatus != null "> and handle_status = #{handleStatus}</if>
+            <if test="handleTime != null "> and handle_time = #{handleTime}</if>
+            <if test="completeTime != null "> and complete_time = #{completeTime}</if>
+            <if test="verifyUserId != null  and verifyUserId != ''"> and verify_user_id = #{verifyUserId}</if>
+            <if test="verifyTime != null "> and verify_time = #{verifyTime}</if>
+            <if test="verifyRemark != null  and verifyRemark != ''"> and verify_remark = #{verifyRemark}</if>
+            <if test="attachUrl != null  and attachUrl != ''"> and attach_url = #{attachUrl}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduWarningHandleByHandleId" parameterType="Long" resultMap="EduWarningHandleResult">
+        <include refid="selectEduWarningHandleVo"/>
+        where handle_id = #{handleId}
+    </select>
+
+    <insert id="insertEduWarningHandle" parameterType="EduWarningHandle">
+        insert into edu_warning_handle
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="handleId != null">handle_id,</if>
+            <if test="warningId != null">warning_id,</if>
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="handlerId != null and handlerId != ''">handler_id,</if>
+            <if test="handleType != null">handle_type,</if>
+            <if test="handleTitle != null and handleTitle != ''">handle_title,</if>
+            <if test="handleContent != null and handleContent != ''">handle_content,</if>
+            <if test="handleStatus != null">handle_status,</if>
+            <if test="handleTime != null">handle_time,</if>
+            <if test="completeTime != null">complete_time,</if>
+            <if test="verifyUserId != null">verify_user_id,</if>
+            <if test="verifyTime != null">verify_time,</if>
+            <if test="verifyRemark != null">verify_remark,</if>
+            <if test="attachUrl != null">attach_url,</if>
+            <if test="remark != null">remark,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="handleId != null">#{handleId},</if>
+            <if test="warningId != null">#{warningId},</if>
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="handlerId != null and handlerId != ''">#{handlerId},</if>
+            <if test="handleType != null">#{handleType},</if>
+            <if test="handleTitle != null and handleTitle != ''">#{handleTitle},</if>
+            <if test="handleContent != null and handleContent != ''">#{handleContent},</if>
+            <if test="handleStatus != null">#{handleStatus},</if>
+            <if test="handleTime != null">#{handleTime},</if>
+            <if test="completeTime != null">#{completeTime},</if>
+            <if test="verifyUserId != null">#{verifyUserId},</if>
+            <if test="verifyTime != null">#{verifyTime},</if>
+            <if test="verifyRemark != null">#{verifyRemark},</if>
+            <if test="attachUrl != null">#{attachUrl},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduWarningHandle" parameterType="EduWarningHandle">
+        update edu_warning_handle
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warningId != null">warning_id = #{warningId},</if>
+            <if test="studentId != null and studentId != ''">student_id = #{studentId},</if>
+            <if test="handlerId != null and handlerId != ''">handler_id = #{handlerId},</if>
+            <if test="handleType != null">handle_type = #{handleType},</if>
+            <if test="handleTitle != null and handleTitle != ''">handle_title = #{handleTitle},</if>
+            <if test="handleContent != null and handleContent != ''">handle_content = #{handleContent},</if>
+            <if test="handleStatus != null">handle_status = #{handleStatus},</if>
+            <if test="handleTime != null">handle_time = #{handleTime},</if>
+            <if test="completeTime != null">complete_time = #{completeTime},</if>
+            <if test="verifyUserId != null">verify_user_id = #{verifyUserId},</if>
+            <if test="verifyTime != null">verify_time = #{verifyTime},</if>
+            <if test="verifyRemark != null">verify_remark = #{verifyRemark},</if>
+            <if test="attachUrl != null">attach_url = #{attachUrl},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where handle_id = #{handleId}
+    </update>
+
+    <delete id="deleteEduWarningHandleByHandleId" parameterType="Long">
+        delete from edu_warning_handle where handle_id = #{handleId}
+    </delete>
+
+    <delete id="deleteEduWarningHandleByHandleIds" parameterType="String">
+        delete from edu_warning_handle where handle_id in 
+        <foreach item="handleId" collection="array" open="(" separator="," close=")">
+            #{handleId}
+        </foreach>
+    </delete>
+</mapper>

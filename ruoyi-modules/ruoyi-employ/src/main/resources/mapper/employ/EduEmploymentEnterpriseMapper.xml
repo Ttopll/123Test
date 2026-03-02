@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.employ.mapper.EduEmploymentEnterpriseMapper">
+    
+    <resultMap type="EduEmploymentEnterprise" id="EduEmploymentEnterpriseResult">
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="enterpriseName"    column="enterprise_name"    />
+        <result property="enterpriseShort"    column="enterprise_short"    />
+        <result property="industryType"    column="industry_type"    />
+        <result property="industryDetail"    column="industry_detail"    />
+        <result property="enterpriseScale"    column="enterprise_scale"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="address"    column="address"    />
+        <result property="contactPerson"    column="contact_person"    />
+        <result property="contactPhone"    column="contact_phone"    />
+        <result property="contactEmail"    column="contact_email"    />
+        <result property="recruitStatus"    column="recruit_status"    />
+        <result property="cooperationLevel"    column="cooperation_level"    />
+        <result property="cooperationStatus"    column="cooperation_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduEmploymentEnterpriseVo">
+        select enterprise_id, enterprise_name, enterprise_short, industry_type, industry_detail, enterprise_scale, province, city, address, contact_person, contact_phone, contact_email, recruit_status, cooperation_level, cooperation_status, create_time, remark, update_time, update_user_id, is_deleted from edu_employment_enterprise
+    </sql>
+
+    <select id="selectEduEmploymentEnterpriseList" parameterType="EduEmploymentEnterprise" resultMap="EduEmploymentEnterpriseResult">
+        <include refid="selectEduEmploymentEnterpriseVo"/>
+        <where>  
+            <if test="enterpriseName != null  and enterpriseName != ''"> and enterprise_name like concat('%', #{enterpriseName}, '%')</if>
+            <if test="enterpriseShort != null  and enterpriseShort != ''"> and enterprise_short = #{enterpriseShort}</if>
+            <if test="industryType != null  and industryType != ''"> and industry_type = #{industryType}</if>
+            <if test="industryDetail != null  and industryDetail != ''"> and industry_detail = #{industryDetail}</if>
+            <if test="enterpriseScale != null "> and enterprise_scale = #{enterpriseScale}</if>
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="contactPerson != null  and contactPerson != ''"> and contact_person = #{contactPerson}</if>
+            <if test="contactPhone != null  and contactPhone != ''"> and contact_phone = #{contactPhone}</if>
+            <if test="contactEmail != null  and contactEmail != ''"> and contact_email = #{contactEmail}</if>
+            <if test="recruitStatus != null "> and recruit_status = #{recruitStatus}</if>
+            <if test="cooperationLevel != null "> and cooperation_level = #{cooperationLevel}</if>
+            <if test="cooperationStatus != null "> and cooperation_status = #{cooperationStatus}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduEmploymentEnterpriseByEnterpriseId" parameterType="String" resultMap="EduEmploymentEnterpriseResult">
+        <include refid="selectEduEmploymentEnterpriseVo"/>
+        where enterprise_id = #{enterpriseId}
+    </select>
+
+    <insert id="insertEduEmploymentEnterprise" parameterType="EduEmploymentEnterprise">
+        insert into edu_employment_enterprise
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="enterpriseId != null">enterprise_id,</if>
+            <if test="enterpriseName != null and enterpriseName != ''">enterprise_name,</if>
+            <if test="enterpriseShort != null">enterprise_short,</if>
+            <if test="industryType != null and industryType != ''">industry_type,</if>
+            <if test="industryDetail != null">industry_detail,</if>
+            <if test="enterpriseScale != null">enterprise_scale,</if>
+            <if test="province != null and province != ''">province,</if>
+            <if test="city != null and city != ''">city,</if>
+            <if test="address != null">address,</if>
+            <if test="contactPerson != null and contactPerson != ''">contact_person,</if>
+            <if test="contactPhone != null and contactPhone != ''">contact_phone,</if>
+            <if test="contactEmail != null">contact_email,</if>
+            <if test="recruitStatus != null">recruit_status,</if>
+            <if test="cooperationLevel != null">cooperation_level,</if>
+            <if test="cooperationStatus != null">cooperation_status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="enterpriseId != null">#{enterpriseId},</if>
+            <if test="enterpriseName != null and enterpriseName != ''">#{enterpriseName},</if>
+            <if test="enterpriseShort != null">#{enterpriseShort},</if>
+            <if test="industryType != null and industryType != ''">#{industryType},</if>
+            <if test="industryDetail != null">#{industryDetail},</if>
+            <if test="enterpriseScale != null">#{enterpriseScale},</if>
+            <if test="province != null and province != ''">#{province},</if>
+            <if test="city != null and city != ''">#{city},</if>
+            <if test="address != null">#{address},</if>
+            <if test="contactPerson != null and contactPerson != ''">#{contactPerson},</if>
+            <if test="contactPhone != null and contactPhone != ''">#{contactPhone},</if>
+            <if test="contactEmail != null">#{contactEmail},</if>
+            <if test="recruitStatus != null">#{recruitStatus},</if>
+            <if test="cooperationLevel != null">#{cooperationLevel},</if>
+            <if test="cooperationStatus != null">#{cooperationStatus},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduEmploymentEnterprise" parameterType="EduEmploymentEnterprise">
+        update edu_employment_enterprise
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="enterpriseName != null and enterpriseName != ''">enterprise_name = #{enterpriseName},</if>
+            <if test="enterpriseShort != null">enterprise_short = #{enterpriseShort},</if>
+            <if test="industryType != null and industryType != ''">industry_type = #{industryType},</if>
+            <if test="industryDetail != null">industry_detail = #{industryDetail},</if>
+            <if test="enterpriseScale != null">enterprise_scale = #{enterpriseScale},</if>
+            <if test="province != null and province != ''">province = #{province},</if>
+            <if test="city != null and city != ''">city = #{city},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="contactPerson != null and contactPerson != ''">contact_person = #{contactPerson},</if>
+            <if test="contactPhone != null and contactPhone != ''">contact_phone = #{contactPhone},</if>
+            <if test="contactEmail != null">contact_email = #{contactEmail},</if>
+            <if test="recruitStatus != null">recruit_status = #{recruitStatus},</if>
+            <if test="cooperationLevel != null">cooperation_level = #{cooperationLevel},</if>
+            <if test="cooperationStatus != null">cooperation_status = #{cooperationStatus},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where enterprise_id = #{enterpriseId}
+    </update>
+
+    <delete id="deleteEduEmploymentEnterpriseByEnterpriseId" parameterType="String">
+        delete from edu_employment_enterprise where enterprise_id = #{enterpriseId}
+    </delete>
+
+    <delete id="deleteEduEmploymentEnterpriseByEnterpriseIds" parameterType="String">
+        delete from edu_employment_enterprise where enterprise_id in 
+        <foreach item="enterpriseId" collection="array" open="(" separator="," close=")">
+            #{enterpriseId}
+        </foreach>
+    </delete>
+</mapper>

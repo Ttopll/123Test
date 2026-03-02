@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.aipaper.mapper.EduPaperTemplateMapper">
+    
+    <resultMap type="EduPaperTemplate" id="EduPaperTemplateResult">
+        <result property="templateId"    column="template_id"    />
+        <result property="templateName"    column="template_name"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="majorId"    column="major_id"    />
+        <result property="examType"    column="exam_type"    />
+        <result property="totalScore"    column="total_score"    />
+        <result property="examTime"    column="exam_time"    />
+        <result property="questionConfig"    column="question_config"    />
+        <result property="difficultyConfig"    column="difficulty_config"    />
+        <result property="creatorId"    column="creator_id"    />
+        <result property="isPublic"    column="is_public"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduPaperTemplateVo">
+        select template_id, template_name, course_id, major_id, exam_type, total_score, exam_time, question_config, difficulty_config, creator_id, is_public, dept_id, status, remark, create_time, update_time, update_user_id, is_deleted from edu_paper_template
+    </sql>
+
+    <select id="selectEduPaperTemplateList" parameterType="EduPaperTemplate" resultMap="EduPaperTemplateResult">
+        <include refid="selectEduPaperTemplateVo"/>
+        <where>  
+            <if test="templateName != null  and templateName != ''"> and template_name like concat('%', #{templateName}, '%')</if>
+            <if test="courseId != null "> and course_id = #{courseId}</if>
+            <if test="majorId != null "> and major_id = #{majorId}</if>
+            <if test="examType != null "> and exam_type = #{examType}</if>
+            <if test="totalScore != null "> and total_score = #{totalScore}</if>
+            <if test="examTime != null "> and exam_time = #{examTime}</if>
+            <if test="questionConfig != null  and questionConfig != ''"> and question_config = #{questionConfig}</if>
+            <if test="difficultyConfig != null  and difficultyConfig != ''"> and difficulty_config = #{difficultyConfig}</if>
+            <if test="creatorId != null  and creatorId != ''"> and creator_id = #{creatorId}</if>
+            <if test="isPublic != null "> and is_public = #{isPublic}</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduPaperTemplateByTemplateId" parameterType="Long" resultMap="EduPaperTemplateResult">
+        <include refid="selectEduPaperTemplateVo"/>
+        where template_id = #{templateId}
+    </select>
+
+    <insert id="insertEduPaperTemplate" parameterType="EduPaperTemplate">
+        insert into edu_paper_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="templateId != null">template_id,</if>
+            <if test="templateName != null and templateName != ''">template_name,</if>
+            <if test="courseId != null">course_id,</if>
+            <if test="majorId != null">major_id,</if>
+            <if test="examType != null">exam_type,</if>
+            <if test="totalScore != null">total_score,</if>
+            <if test="examTime != null">exam_time,</if>
+            <if test="questionConfig != null and questionConfig != ''">question_config,</if>
+            <if test="difficultyConfig != null and difficultyConfig != ''">difficulty_config,</if>
+            <if test="creatorId != null and creatorId != ''">creator_id,</if>
+            <if test="isPublic != null">is_public,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="status != null">status,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="templateId != null">#{templateId},</if>
+            <if test="templateName != null and templateName != ''">#{templateName},</if>
+            <if test="courseId != null">#{courseId},</if>
+            <if test="majorId != null">#{majorId},</if>
+            <if test="examType != null">#{examType},</if>
+            <if test="totalScore != null">#{totalScore},</if>
+            <if test="examTime != null">#{examTime},</if>
+            <if test="questionConfig != null and questionConfig != ''">#{questionConfig},</if>
+            <if test="difficultyConfig != null and difficultyConfig != ''">#{difficultyConfig},</if>
+            <if test="creatorId != null and creatorId != ''">#{creatorId},</if>
+            <if test="isPublic != null">#{isPublic},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduPaperTemplate" parameterType="EduPaperTemplate">
+        update edu_paper_template
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="templateName != null and templateName != ''">template_name = #{templateName},</if>
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="majorId != null">major_id = #{majorId},</if>
+            <if test="examType != null">exam_type = #{examType},</if>
+            <if test="totalScore != null">total_score = #{totalScore},</if>
+            <if test="examTime != null">exam_time = #{examTime},</if>
+            <if test="questionConfig != null and questionConfig != ''">question_config = #{questionConfig},</if>
+            <if test="difficultyConfig != null and difficultyConfig != ''">difficulty_config = #{difficultyConfig},</if>
+            <if test="creatorId != null and creatorId != ''">creator_id = #{creatorId},</if>
+            <if test="isPublic != null">is_public = #{isPublic},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where template_id = #{templateId}
+    </update>
+
+    <delete id="deleteEduPaperTemplateByTemplateId" parameterType="Long">
+        delete from edu_paper_template where template_id = #{templateId}
+    </delete>
+
+    <delete id="deleteEduPaperTemplateByTemplateIds" parameterType="String">
+        delete from edu_paper_template where template_id in 
+        <foreach item="templateId" collection="array" open="(" separator="," close=")">
+            #{templateId}
+        </foreach>
+    </delete>
+</mapper>

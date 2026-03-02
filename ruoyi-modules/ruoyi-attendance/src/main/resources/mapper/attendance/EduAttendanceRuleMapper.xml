@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.attendance.mapper.EduAttendanceRuleMapper">
+    
+    <resultMap type="EduAttendanceRule" id="EduAttendanceRuleResult">
+        <result property="ruleId"    column="rule_id"    />
+        <result property="ruleName"    column="rule_name"    />
+        <result property="lateMinute"    column="late_minute"    />
+        <result property="absentCondition"    column="absent_condition"    />
+        <result property="earlyLeaveMinute"    column="early_leave_minute"    />
+        <result property="signRange"    column="sign_range"    />
+        <result property="warningThreshold"    column="warning_threshold"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduAttendanceRuleVo">
+        select rule_id, rule_name, late_minute, absent_condition, early_leave_minute, sign_range, warning_threshold, status, create_time, update_time, update_user_id, is_deleted from edu_attendance_rule
+    </sql>
+
+    <select id="selectEduAttendanceRuleList" parameterType="EduAttendanceRule" resultMap="EduAttendanceRuleResult">
+        <include refid="selectEduAttendanceRuleVo"/>
+        <where>  
+            <if test="ruleName != null  and ruleName != ''"> and rule_name like concat('%', #{ruleName}, '%')</if>
+            <if test="lateMinute != null "> and late_minute = #{lateMinute}</if>
+            <if test="absentCondition != null "> and absent_condition = #{absentCondition}</if>
+            <if test="earlyLeaveMinute != null "> and early_leave_minute = #{earlyLeaveMinute}</if>
+            <if test="signRange != null "> and sign_range = #{signRange}</if>
+            <if test="warningThreshold != null "> and warning_threshold = #{warningThreshold}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduAttendanceRuleByRuleId" parameterType="Long" resultMap="EduAttendanceRuleResult">
+        <include refid="selectEduAttendanceRuleVo"/>
+        where rule_id = #{ruleId}
+    </select>
+
+    <insert id="insertEduAttendanceRule" parameterType="EduAttendanceRule">
+        insert into edu_attendance_rule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ruleId != null">rule_id,</if>
+            <if test="ruleName != null and ruleName != ''">rule_name,</if>
+            <if test="lateMinute != null">late_minute,</if>
+            <if test="absentCondition != null">absent_condition,</if>
+            <if test="earlyLeaveMinute != null">early_leave_minute,</if>
+            <if test="signRange != null">sign_range,</if>
+            <if test="warningThreshold != null">warning_threshold,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ruleId != null">#{ruleId},</if>
+            <if test="ruleName != null and ruleName != ''">#{ruleName},</if>
+            <if test="lateMinute != null">#{lateMinute},</if>
+            <if test="absentCondition != null">#{absentCondition},</if>
+            <if test="earlyLeaveMinute != null">#{earlyLeaveMinute},</if>
+            <if test="signRange != null">#{signRange},</if>
+            <if test="warningThreshold != null">#{warningThreshold},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduAttendanceRule" parameterType="EduAttendanceRule">
+        update edu_attendance_rule
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ruleName != null and ruleName != ''">rule_name = #{ruleName},</if>
+            <if test="lateMinute != null">late_minute = #{lateMinute},</if>
+            <if test="absentCondition != null">absent_condition = #{absentCondition},</if>
+            <if test="earlyLeaveMinute != null">early_leave_minute = #{earlyLeaveMinute},</if>
+            <if test="signRange != null">sign_range = #{signRange},</if>
+            <if test="warningThreshold != null">warning_threshold = #{warningThreshold},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where rule_id = #{ruleId}
+    </update>
+
+    <delete id="deleteEduAttendanceRuleByRuleId" parameterType="Long">
+        delete from edu_attendance_rule where rule_id = #{ruleId}
+    </delete>
+
+    <delete id="deleteEduAttendanceRuleByRuleIds" parameterType="String">
+        delete from edu_attendance_rule where rule_id in 
+        <foreach item="ruleId" collection="array" open="(" separator="," close=")">
+            #{ruleId}
+        </foreach>
+    </delete>
+</mapper>

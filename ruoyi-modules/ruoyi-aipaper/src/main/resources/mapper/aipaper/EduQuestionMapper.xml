@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.aipaper.mapper.EduQuestionMapper">
+    
+    <resultMap type="EduQuestion" id="EduQuestionResult">
+        <result property="questionId"    column="question_id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="questionType"    column="question_type"    />
+        <result property="questionContent"    column="question_content"    />
+        <result property="optionContent"    column="option_content"    />
+        <result property="answer"    column="answer"    />
+        <result property="score"    column="score"    />
+        <result property="difficulty"    column="difficulty"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduQuestionVo">
+        select question_id, course_id, question_type, question_content, option_content, answer, score, difficulty, create_user_id, create_time, update_time, update_user_id, is_deleted from edu_question
+    </sql>
+
+    <select id="selectEduQuestionList" parameterType="EduQuestion" resultMap="EduQuestionResult">
+        <include refid="selectEduQuestionVo"/>
+        <where>  
+            <if test="courseId != null "> and course_id = #{courseId}</if>
+            <if test="questionType != null "> and question_type = #{questionType}</if>
+            <if test="questionContent != null  and questionContent != ''"> and question_content = #{questionContent}</if>
+            <if test="optionContent != null  and optionContent != ''"> and option_content = #{optionContent}</if>
+            <if test="answer != null  and answer != ''"> and answer = #{answer}</if>
+            <if test="score != null "> and score = #{score}</if>
+            <if test="difficulty != null "> and difficulty = #{difficulty}</if>
+            <if test="createUserId != null  and createUserId != ''"> and create_user_id = #{createUserId}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduQuestionByQuestionId" parameterType="Long" resultMap="EduQuestionResult">
+        <include refid="selectEduQuestionVo"/>
+        where question_id = #{questionId}
+    </select>
+
+    <insert id="insertEduQuestion" parameterType="EduQuestion">
+        insert into edu_question
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="questionId != null">question_id,</if>
+            <if test="courseId != null">course_id,</if>
+            <if test="questionType != null">question_type,</if>
+            <if test="questionContent != null and questionContent != ''">question_content,</if>
+            <if test="optionContent != null">option_content,</if>
+            <if test="answer != null and answer != ''">answer,</if>
+            <if test="score != null">score,</if>
+            <if test="difficulty != null">difficulty,</if>
+            <if test="createUserId != null and createUserId != ''">create_user_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="questionId != null">#{questionId},</if>
+            <if test="courseId != null">#{courseId},</if>
+            <if test="questionType != null">#{questionType},</if>
+            <if test="questionContent != null and questionContent != ''">#{questionContent},</if>
+            <if test="optionContent != null">#{optionContent},</if>
+            <if test="answer != null and answer != ''">#{answer},</if>
+            <if test="score != null">#{score},</if>
+            <if test="difficulty != null">#{difficulty},</if>
+            <if test="createUserId != null and createUserId != ''">#{createUserId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduQuestion" parameterType="EduQuestion">
+        update edu_question
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="questionType != null">question_type = #{questionType},</if>
+            <if test="questionContent != null and questionContent != ''">question_content = #{questionContent},</if>
+            <if test="optionContent != null">option_content = #{optionContent},</if>
+            <if test="answer != null and answer != ''">answer = #{answer},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="difficulty != null">difficulty = #{difficulty},</if>
+            <if test="createUserId != null and createUserId != ''">create_user_id = #{createUserId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where question_id = #{questionId}
+    </update>
+
+    <delete id="deleteEduQuestionByQuestionId" parameterType="Long">
+        delete from edu_question where question_id = #{questionId}
+    </delete>
+
+    <delete id="deleteEduQuestionByQuestionIds" parameterType="String">
+        delete from edu_question where question_id in 
+        <foreach item="questionId" collection="array" open="(" separator="," close=")">
+            #{questionId}
+        </foreach>
+    </delete>
+</mapper>

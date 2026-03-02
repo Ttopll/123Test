@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.practice.mapper.EduPracticeProcessMapper">
+    
+    <resultMap type="EduPracticeProcess" id="EduPracticeProcessResult">
+        <result property="processId"    column="process_id"    />
+        <result property="signupId"    column="signup_id"    />
+        <result property="activityId"    column="activity_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="processStage"    column="process_stage"    />
+        <result property="stageContent"    column="stage_content"    />
+        <result property="stageTime"    column="stage_time"    />
+        <result property="attachUrl"    column="attach_url"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduPracticeProcessVo">
+        select process_id, signup_id, activity_id, student_id, process_stage, stage_content, stage_time, attach_url, remark, create_time, update_time, update_user_id, is_deleted from edu_practice_process
+    </sql>
+
+    <select id="selectEduPracticeProcessList" parameterType="EduPracticeProcess" resultMap="EduPracticeProcessResult">
+        <include refid="selectEduPracticeProcessVo"/>
+        <where>  
+            <if test="signupId != null "> and signup_id = #{signupId}</if>
+            <if test="activityId != null  and activityId != ''"> and activity_id = #{activityId}</if>
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="processStage != null "> and process_stage = #{processStage}</if>
+            <if test="stageContent != null  and stageContent != ''"> and stage_content = #{stageContent}</if>
+            <if test="stageTime != null "> and stage_time = #{stageTime}</if>
+            <if test="attachUrl != null  and attachUrl != ''"> and attach_url = #{attachUrl}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduPracticeProcessByProcessId" parameterType="Long" resultMap="EduPracticeProcessResult">
+        <include refid="selectEduPracticeProcessVo"/>
+        where process_id = #{processId}
+    </select>
+
+    <insert id="insertEduPracticeProcess" parameterType="EduPracticeProcess">
+        insert into edu_practice_process
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="processId != null">process_id,</if>
+            <if test="signupId != null">signup_id,</if>
+            <if test="activityId != null and activityId != ''">activity_id,</if>
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="processStage != null">process_stage,</if>
+            <if test="stageContent != null and stageContent != ''">stage_content,</if>
+            <if test="stageTime != null">stage_time,</if>
+            <if test="attachUrl != null">attach_url,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="processId != null">#{processId},</if>
+            <if test="signupId != null">#{signupId},</if>
+            <if test="activityId != null and activityId != ''">#{activityId},</if>
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="processStage != null">#{processStage},</if>
+            <if test="stageContent != null and stageContent != ''">#{stageContent},</if>
+            <if test="stageTime != null">#{stageTime},</if>
+            <if test="attachUrl != null">#{attachUrl},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduPracticeProcess" parameterType="EduPracticeProcess">
+        update edu_practice_process
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="signupId != null">signup_id = #{signupId},</if>
+            <if test="activityId != null and activityId != ''">activity_id = #{activityId},</if>
+            <if test="studentId != null and studentId != ''">student_id = #{studentId},</if>
+            <if test="processStage != null">process_stage = #{processStage},</if>
+            <if test="stageContent != null and stageContent != ''">stage_content = #{stageContent},</if>
+            <if test="stageTime != null">stage_time = #{stageTime},</if>
+            <if test="attachUrl != null">attach_url = #{attachUrl},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where process_id = #{processId}
+    </update>
+
+    <delete id="deleteEduPracticeProcessByProcessId" parameterType="Long">
+        delete from edu_practice_process where process_id = #{processId}
+    </delete>
+
+    <delete id="deleteEduPracticeProcessByProcessIds" parameterType="String">
+        delete from edu_practice_process where process_id in 
+        <foreach item="processId" collection="array" open="(" separator="," close=")">
+            #{processId}
+        </foreach>
+    </delete>
+</mapper>

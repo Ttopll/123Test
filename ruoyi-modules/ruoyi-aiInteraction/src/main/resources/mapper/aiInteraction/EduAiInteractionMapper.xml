@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.aiInteraction.mapper.EduAiInteractionMapper">
+    
+    <resultMap type="EduAiInteraction" id="EduAiInteractionResult">
+        <result property="interactionId"    column="interaction_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="interactionType"    column="interaction_type"    />
+        <result property="interactionStatus"    column="interaction_status"    />
+        <result property="requestContent"    column="request_content"    />
+        <result property="responseContent"    column="response_content"    />
+        <result property="interactionTime"    column="interaction_time"    />
+        <result property="isCollect"    column="is_collect"    />
+        <result property="documentUrl"    column="document_url"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="guideFunction"    column="guide_function"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduAiInteractionVo">
+        select interaction_id, user_id, interaction_type, interaction_status, request_content, response_content, interaction_time, is_collect, document_url, image_url, guide_function, create_time, update_time, update_user_id, is_deleted from edu_ai_interaction
+    </sql>
+
+    <select id="selectEduAiInteractionList" parameterType="EduAiInteraction" resultMap="EduAiInteractionResult">
+        <include refid="selectEduAiInteractionVo"/>
+        <where>  
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="interactionType != null "> and interaction_type = #{interactionType}</if>
+            <if test="interactionStatus != null "> and interaction_status = #{interactionStatus}</if>
+            <if test="requestContent != null  and requestContent != ''"> and request_content = #{requestContent}</if>
+            <if test="responseContent != null  and responseContent != ''"> and response_content = #{responseContent}</if>
+            <if test="interactionTime != null "> and interaction_time = #{interactionTime}</if>
+            <if test="isCollect != null "> and is_collect = #{isCollect}</if>
+            <if test="documentUrl != null  and documentUrl != ''"> and document_url = #{documentUrl}</if>
+            <if test="imageUrl != null  and imageUrl != ''"> and image_url = #{imageUrl}</if>
+            <if test="guideFunction != null  and guideFunction != ''"> and guide_function = #{guideFunction}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduAiInteractionByInteractionId" parameterType="String" resultMap="EduAiInteractionResult">
+        <include refid="selectEduAiInteractionVo"/>
+        where interaction_id = #{interactionId}
+    </select>
+
+    <insert id="insertEduAiInteraction" parameterType="EduAiInteraction">
+        insert into edu_ai_interaction
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="interactionId != null">interaction_id,</if>
+            <if test="userId != null and userId != ''">user_id,</if>
+            <if test="interactionType != null">interaction_type,</if>
+            <if test="interactionStatus != null">interaction_status,</if>
+            <if test="requestContent != null and requestContent != ''">request_content,</if>
+            <if test="responseContent != null">response_content,</if>
+            <if test="interactionTime != null">interaction_time,</if>
+            <if test="isCollect != null">is_collect,</if>
+            <if test="documentUrl != null">document_url,</if>
+            <if test="imageUrl != null">image_url,</if>
+            <if test="guideFunction != null">guide_function,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="interactionId != null">#{interactionId},</if>
+            <if test="userId != null and userId != ''">#{userId},</if>
+            <if test="interactionType != null">#{interactionType},</if>
+            <if test="interactionStatus != null">#{interactionStatus},</if>
+            <if test="requestContent != null and requestContent != ''">#{requestContent},</if>
+            <if test="responseContent != null">#{responseContent},</if>
+            <if test="interactionTime != null">#{interactionTime},</if>
+            <if test="isCollect != null">#{isCollect},</if>
+            <if test="documentUrl != null">#{documentUrl},</if>
+            <if test="imageUrl != null">#{imageUrl},</if>
+            <if test="guideFunction != null">#{guideFunction},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduAiInteraction" parameterType="EduAiInteraction">
+        update edu_ai_interaction
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="interactionType != null">interaction_type = #{interactionType},</if>
+            <if test="interactionStatus != null">interaction_status = #{interactionStatus},</if>
+            <if test="requestContent != null and requestContent != ''">request_content = #{requestContent},</if>
+            <if test="responseContent != null">response_content = #{responseContent},</if>
+            <if test="interactionTime != null">interaction_time = #{interactionTime},</if>
+            <if test="isCollect != null">is_collect = #{isCollect},</if>
+            <if test="documentUrl != null">document_url = #{documentUrl},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="guideFunction != null">guide_function = #{guideFunction},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where interaction_id = #{interactionId}
+    </update>
+
+    <delete id="deleteEduAiInteractionByInteractionId" parameterType="String">
+        delete from edu_ai_interaction where interaction_id = #{interactionId}
+    </delete>
+
+    <delete id="deleteEduAiInteractionByInteractionIds" parameterType="String">
+        delete from edu_ai_interaction where interaction_id in 
+        <foreach item="interactionId" collection="array" open="(" separator="," close=")">
+            #{interactionId}
+        </foreach>
+    </delete>
+</mapper>

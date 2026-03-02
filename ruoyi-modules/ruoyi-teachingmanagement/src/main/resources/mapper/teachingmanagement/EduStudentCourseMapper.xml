@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.teachingmanagement.mapper.EduStudentCourseMapper">
+    
+    <resultMap type="EduStudentCourse" id="EduStudentCourseResult">
+        <result property="scId"    column="sc_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="teacherId"    column="teacher_id"    />
+        <result property="semester"    column="semester"    />
+        <result property="selectTime"    column="select_time"    />
+        <result property="dropTime"    column="drop_time"    />
+        <result property="scStatus"    column="sc_status"    />
+        <result property="conflictFlag"    column="conflict_flag"    />
+        <result property="conflictResolveFlag"    column="conflict_resolve_flag"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduStudentCourseVo">
+        select sc_id, student_id, course_id, teacher_id, semester, select_time, drop_time, sc_status, conflict_flag, conflict_resolve_flag, remark, create_time, update_time, update_user_id, is_deleted from edu_student_course
+    </sql>
+
+    <select id="selectEduStudentCourseList" parameterType="EduStudentCourse" resultMap="EduStudentCourseResult">
+        <include refid="selectEduStudentCourseVo"/>
+        <where>  
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="courseId != null "> and course_id = #{courseId}</if>
+            <if test="teacherId != null "> and teacher_id = #{teacherId}</if>
+            <if test="semester != null  and semester != ''"> and semester = #{semester}</if>
+            <if test="selectTime != null "> and select_time = #{selectTime}</if>
+            <if test="dropTime != null "> and drop_time = #{dropTime}</if>
+            <if test="scStatus != null "> and sc_status = #{scStatus}</if>
+            <if test="conflictFlag != null "> and conflict_flag = #{conflictFlag}</if>
+            <if test="conflictResolveFlag != null "> and conflict_resolve_flag = #{conflictResolveFlag}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduStudentCourseByScId" parameterType="Long" resultMap="EduStudentCourseResult">
+        <include refid="selectEduStudentCourseVo"/>
+        where sc_id = #{scId}
+    </select>
+
+    <insert id="insertEduStudentCourse" parameterType="EduStudentCourse">
+        insert into edu_student_course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scId != null">sc_id,</if>
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="courseId != null">course_id,</if>
+            <if test="teacherId != null">teacher_id,</if>
+            <if test="semester != null and semester != ''">semester,</if>
+            <if test="selectTime != null">select_time,</if>
+            <if test="dropTime != null">drop_time,</if>
+            <if test="scStatus != null">sc_status,</if>
+            <if test="conflictFlag != null">conflict_flag,</if>
+            <if test="conflictResolveFlag != null">conflict_resolve_flag,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="scId != null">#{scId},</if>
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="courseId != null">#{courseId},</if>
+            <if test="teacherId != null">#{teacherId},</if>
+            <if test="semester != null and semester != ''">#{semester},</if>
+            <if test="selectTime != null">#{selectTime},</if>
+            <if test="dropTime != null">#{dropTime},</if>
+            <if test="scStatus != null">#{scStatus},</if>
+            <if test="conflictFlag != null">#{conflictFlag},</if>
+            <if test="conflictResolveFlag != null">#{conflictResolveFlag},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduStudentCourse" parameterType="EduStudentCourse">
+        update edu_student_course
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null and studentId != ''">student_id = #{studentId},</if>
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="teacherId != null">teacher_id = #{teacherId},</if>
+            <if test="semester != null and semester != ''">semester = #{semester},</if>
+            <if test="selectTime != null">select_time = #{selectTime},</if>
+            <if test="dropTime != null">drop_time = #{dropTime},</if>
+            <if test="scStatus != null">sc_status = #{scStatus},</if>
+            <if test="conflictFlag != null">conflict_flag = #{conflictFlag},</if>
+            <if test="conflictResolveFlag != null">conflict_resolve_flag = #{conflictResolveFlag},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where sc_id = #{scId}
+    </update>
+
+    <delete id="deleteEduStudentCourseByScId" parameterType="Long">
+        delete from edu_student_course where sc_id = #{scId}
+    </delete>
+
+    <delete id="deleteEduStudentCourseByScIds" parameterType="String">
+        delete from edu_student_course where sc_id in 
+        <foreach item="scId" collection="array" open="(" separator="," close=")">
+            #{scId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.employ.mapper.EduEmploymentResumeMapper">
+    
+    <resultMap type="EduEmploymentResume" id="EduEmploymentResumeResult">
+        <result property="resumeId"    column="resume_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="resumeTitle"    column="resume_title"    />
+        <result property="resumeType"    column="resume_type"    />
+        <result property="educationBg"    column="education_bg"    />
+        <result property="workExp"    column="work_exp"    />
+        <result property="projectExp"    column="project_exp"    />
+        <result property="skill"    column="skill"    />
+        <result property="honor"    column="honor"    />
+        <result property="resumeFileUrl"    column="resume_file_url"    />
+        <result property="fileSize"    column="file_size"    />
+        <result property="isDefault"    column="is_default"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduEmploymentResumeVo">
+        select resume_id, student_id, resume_title, resume_type, education_bg, work_exp, project_exp, skill, honor, resume_file_url, file_size, is_default, create_time, update_time, update_user_id, is_deleted from edu_employment_resume
+    </sql>
+
+    <select id="selectEduEmploymentResumeList" parameterType="EduEmploymentResume" resultMap="EduEmploymentResumeResult">
+        <include refid="selectEduEmploymentResumeVo"/>
+        <where>  
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="resumeTitle != null  and resumeTitle != ''"> and resume_title = #{resumeTitle}</if>
+            <if test="resumeType != null "> and resume_type = #{resumeType}</if>
+            <if test="educationBg != null  and educationBg != ''"> and education_bg = #{educationBg}</if>
+            <if test="workExp != null  and workExp != ''"> and work_exp = #{workExp}</if>
+            <if test="projectExp != null  and projectExp != ''"> and project_exp = #{projectExp}</if>
+            <if test="skill != null  and skill != ''"> and skill = #{skill}</if>
+            <if test="honor != null  and honor != ''"> and honor = #{honor}</if>
+            <if test="resumeFileUrl != null  and resumeFileUrl != ''"> and resume_file_url = #{resumeFileUrl}</if>
+            <if test="fileSize != null "> and file_size = #{fileSize}</if>
+            <if test="isDefault != null "> and is_default = #{isDefault}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduEmploymentResumeByResumeId" parameterType="Long" resultMap="EduEmploymentResumeResult">
+        <include refid="selectEduEmploymentResumeVo"/>
+        where resume_id = #{resumeId}
+    </select>
+
+    <insert id="insertEduEmploymentResume" parameterType="EduEmploymentResume">
+        insert into edu_employment_resume
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="resumeId != null">resume_id,</if>
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="resumeTitle != null and resumeTitle != ''">resume_title,</if>
+            <if test="resumeType != null">resume_type,</if>
+            <if test="educationBg != null and educationBg != ''">education_bg,</if>
+            <if test="workExp != null">work_exp,</if>
+            <if test="projectExp != null">project_exp,</if>
+            <if test="skill != null and skill != ''">skill,</if>
+            <if test="honor != null">honor,</if>
+            <if test="resumeFileUrl != null and resumeFileUrl != ''">resume_file_url,</if>
+            <if test="fileSize != null">file_size,</if>
+            <if test="isDefault != null">is_default,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="resumeId != null">#{resumeId},</if>
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="resumeTitle != null and resumeTitle != ''">#{resumeTitle},</if>
+            <if test="resumeType != null">#{resumeType},</if>
+            <if test="educationBg != null and educationBg != ''">#{educationBg},</if>
+            <if test="workExp != null">#{workExp},</if>
+            <if test="projectExp != null">#{projectExp},</if>
+            <if test="skill != null and skill != ''">#{skill},</if>
+            <if test="honor != null">#{honor},</if>
+            <if test="resumeFileUrl != null and resumeFileUrl != ''">#{resumeFileUrl},</if>
+            <if test="fileSize != null">#{fileSize},</if>
+            <if test="isDefault != null">#{isDefault},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduEmploymentResume" parameterType="EduEmploymentResume">
+        update edu_employment_resume
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null and studentId != ''">student_id = #{studentId},</if>
+            <if test="resumeTitle != null and resumeTitle != ''">resume_title = #{resumeTitle},</if>
+            <if test="resumeType != null">resume_type = #{resumeType},</if>
+            <if test="educationBg != null and educationBg != ''">education_bg = #{educationBg},</if>
+            <if test="workExp != null">work_exp = #{workExp},</if>
+            <if test="projectExp != null">project_exp = #{projectExp},</if>
+            <if test="skill != null and skill != ''">skill = #{skill},</if>
+            <if test="honor != null">honor = #{honor},</if>
+            <if test="resumeFileUrl != null and resumeFileUrl != ''">resume_file_url = #{resumeFileUrl},</if>
+            <if test="fileSize != null">file_size = #{fileSize},</if>
+            <if test="isDefault != null">is_default = #{isDefault},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where resume_id = #{resumeId}
+    </update>
+
+    <delete id="deleteEduEmploymentResumeByResumeId" parameterType="Long">
+        delete from edu_employment_resume where resume_id = #{resumeId}
+    </delete>
+
+    <delete id="deleteEduEmploymentResumeByResumeIds" parameterType="String">
+        delete from edu_employment_resume where resume_id in 
+        <foreach item="resumeId" collection="array" open="(" separator="," close=")">
+            #{resumeId}
+        </foreach>
+    </delete>
+</mapper>

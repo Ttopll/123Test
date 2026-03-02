@@ -26,7 +26,7 @@ pipeline {
         BASE_DEPLOY_PATH = '/home/jenkins/deploy/ruoyi-cloud'
 
         // JVM 内存限制 (关键！防止阿里云服务器卡死)
-        // -Xms128m: 最小内存, -Xmx256m: 最大内存
+        // -Xms128m: 最小内存, -Xmx512m: 最大内存
         JAVA_OPTS = "-Xms128m -Xmx512m"
     }
 

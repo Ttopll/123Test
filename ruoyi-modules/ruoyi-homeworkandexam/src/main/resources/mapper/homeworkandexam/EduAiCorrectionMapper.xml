@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.homeworkandexam.mapper.EduAiCorrectionMapper">
+    
+    <resultMap type="EduAiCorrection" id="EduAiCorrectionResult">
+        <result property="correctionId"    column="correction_id"    />
+        <result property="submitId"    column="submit_id"    />
+        <result property="assignId"    column="assign_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="teacherId"    column="teacher_id"    />
+        <result property="aiScore"    column="ai_score"    />
+        <result property="aiCorrectionContent"    column="ai_correction_content"    />
+        <result property="manualScore"    column="manual_score"    />
+        <result property="manualCorrectionContent"    column="manual_correction_content"    />
+        <result property="similarityRate"    column="similarity_rate"    />
+        <result property="correctionStatus"    column="correction_status"    />
+        <result property="correctionTime"    column="correction_time"    />
+        <result property="manualTime"    column="manual_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduAiCorrectionVo">
+        select correction_id, submit_id, assign_id, student_id, teacher_id, ai_score, ai_correction_content, manual_score, manual_correction_content, similarity_rate, correction_status, correction_time, manual_time, create_time, update_time, update_user_id, is_deleted from edu_ai_correction
+    </sql>
+
+    <select id="selectEduAiCorrectionList" parameterType="EduAiCorrection" resultMap="EduAiCorrectionResult">
+        <include refid="selectEduAiCorrectionVo"/>
+        <where>  
+            <if test="submitId != null "> and submit_id = #{submitId}</if>
+            <if test="assignId != null "> and assign_id = #{assignId}</if>
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="teacherId != null  and teacherId != ''"> and teacher_id = #{teacherId}</if>
+            <if test="aiScore != null "> and ai_score = #{aiScore}</if>
+            <if test="aiCorrectionContent != null  and aiCorrectionContent != ''"> and ai_correction_content = #{aiCorrectionContent}</if>
+            <if test="manualScore != null "> and manual_score = #{manualScore}</if>
+            <if test="manualCorrectionContent != null  and manualCorrectionContent != ''"> and manual_correction_content = #{manualCorrectionContent}</if>
+            <if test="similarityRate != null "> and similarity_rate = #{similarityRate}</if>
+            <if test="correctionStatus != null "> and correction_status = #{correctionStatus}</if>
+            <if test="correctionTime != null "> and correction_time = #{correctionTime}</if>
+            <if test="manualTime != null "> and manual_time = #{manualTime}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduAiCorrectionByCorrectionId" parameterType="Long" resultMap="EduAiCorrectionResult">
+        <include refid="selectEduAiCorrectionVo"/>
+        where correction_id = #{correctionId}
+    </select>
+
+    <insert id="insertEduAiCorrection" parameterType="EduAiCorrection">
+        insert into edu_ai_correction
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="correctionId != null">correction_id,</if>
+            <if test="submitId != null">submit_id,</if>
+            <if test="assignId != null">assign_id,</if>
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="teacherId != null and teacherId != ''">teacher_id,</if>
+            <if test="aiScore != null">ai_score,</if>
+            <if test="aiCorrectionContent != null and aiCorrectionContent != ''">ai_correction_content,</if>
+            <if test="manualScore != null">manual_score,</if>
+            <if test="manualCorrectionContent != null">manual_correction_content,</if>
+            <if test="similarityRate != null">similarity_rate,</if>
+            <if test="correctionStatus != null">correction_status,</if>
+            <if test="correctionTime != null">correction_time,</if>
+            <if test="manualTime != null">manual_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="correctionId != null">#{correctionId},</if>
+            <if test="submitId != null">#{submitId},</if>
+            <if test="assignId != null">#{assignId},</if>
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="teacherId != null and teacherId != ''">#{teacherId},</if>
+            <if test="aiScore != null">#{aiScore},</if>
+            <if test="aiCorrectionContent != null and aiCorrectionContent != ''">#{aiCorrectionContent},</if>
+            <if test="manualScore != null">#{manualScore},</if>
+            <if test="manualCorrectionContent != null">#{manualCorrectionContent},</if>
+            <if test="similarityRate != null">#{similarityRate},</if>
+            <if test="correctionStatus != null">#{correctionStatus},</if>
+            <if test="correctionTime != null">#{correctionTime},</if>
+            <if test="manualTime != null">#{manualTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduAiCorrection" parameterType="EduAiCorrection">
+        update edu_ai_correction
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="submitId != null">submit_id = #{submitId},</if>
+            <if test="assignId != null">assign_id = #{assignId},</if>
+            <if test="studentId != null and studentId != ''">student_id = #{studentId},</if>
+            <if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
+            <if test="aiScore != null">ai_score = #{aiScore},</if>
+            <if test="aiCorrectionContent != null and aiCorrectionContent != ''">ai_correction_content = #{aiCorrectionContent},</if>
+            <if test="manualScore != null">manual_score = #{manualScore},</if>
+            <if test="manualCorrectionContent != null">manual_correction_content = #{manualCorrectionContent},</if>
+            <if test="similarityRate != null">similarity_rate = #{similarityRate},</if>
+            <if test="correctionStatus != null">correction_status = #{correctionStatus},</if>
+            <if test="correctionTime != null">correction_time = #{correctionTime},</if>
+            <if test="manualTime != null">manual_time = #{manualTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where correction_id = #{correctionId}
+    </update>
+
+    <delete id="deleteEduAiCorrectionByCorrectionId" parameterType="Long">
+        delete from edu_ai_correction where correction_id = #{correctionId}
+    </delete>
+
+    <delete id="deleteEduAiCorrectionByCorrectionIds" parameterType="String">
+        delete from edu_ai_correction where correction_id in 
+        <foreach item="correctionId" collection="array" open="(" separator="," close=")">
+            #{correctionId}
+        </foreach>
+    </delete>
+</mapper>

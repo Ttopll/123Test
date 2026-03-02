@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.evaluate.mapper.EduTeacherEvaluationRecordMapper">
+    
+    <resultMap type="EduTeacherEvaluationRecord" id="EduTeacherEvaluationRecordResult">
+        <result property="recordId"    column="record_id"    />
+        <result property="configId"    column="config_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="scId"    column="sc_id"    />
+        <result property="teacherId"    column="teacher_id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="dimensionScores"    column="dimension_scores"    />
+        <result property="comprehensiveScore"    column="comprehensive_score"    />
+        <result property="evaluationContent"    column="evaluation_content"    />
+        <result property="evaluationTime"    column="evaluation_time"    />
+        <result property="auditStatus"    column="audit_status"    />
+        <result property="auditUserId"    column="audit_user_id"    />
+        <result property="auditTime"    column="audit_time"    />
+        <result property="auditRemark"    column="audit_remark"    />
+        <result property="isValid"    column="is_valid"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduTeacherEvaluationRecordVo">
+        select record_id, config_id, student_id, sc_id, teacher_id, course_id, dimension_scores, comprehensive_score, evaluation_content, evaluation_time, audit_status, audit_user_id, audit_time, audit_remark, is_valid, remark, create_time, update_time, update_user_id, is_deleted from edu_teacher_evaluation_record
+    </sql>
+
+    <select id="selectEduTeacherEvaluationRecordList" parameterType="EduTeacherEvaluationRecord" resultMap="EduTeacherEvaluationRecordResult">
+        <include refid="selectEduTeacherEvaluationRecordVo"/>
+        <where>  
+            <if test="configId != null "> and config_id = #{configId}</if>
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="scId != null  and scId != ''"> and sc_id = #{scId}</if>
+            <if test="teacherId != null  and teacherId != ''"> and teacher_id = #{teacherId}</if>
+            <if test="courseId != null "> and course_id = #{courseId}</if>
+            <if test="dimensionScores != null  and dimensionScores != ''"> and dimension_scores = #{dimensionScores}</if>
+            <if test="comprehensiveScore != null "> and comprehensive_score = #{comprehensiveScore}</if>
+            <if test="evaluationContent != null  and evaluationContent != ''"> and evaluation_content = #{evaluationContent}</if>
+            <if test="evaluationTime != null "> and evaluation_time = #{evaluationTime}</if>
+            <if test="auditStatus != null "> and audit_status = #{auditStatus}</if>
+            <if test="auditUserId != null  and auditUserId != ''"> and audit_user_id = #{auditUserId}</if>
+            <if test="auditTime != null "> and audit_time = #{auditTime}</if>
+            <if test="auditRemark != null  and auditRemark != ''"> and audit_remark = #{auditRemark}</if>
+            <if test="isValid != null "> and is_valid = #{isValid}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduTeacherEvaluationRecordByRecordId" parameterType="String" resultMap="EduTeacherEvaluationRecordResult">
+        <include refid="selectEduTeacherEvaluationRecordVo"/>
+        where record_id = #{recordId}
+    </select>
+
+    <insert id="insertEduTeacherEvaluationRecord" parameterType="EduTeacherEvaluationRecord">
+        insert into edu_teacher_evaluation_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recordId != null">record_id,</if>
+            <if test="configId != null">config_id,</if>
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="scId != null and scId != ''">sc_id,</if>
+            <if test="teacherId != null and teacherId != ''">teacher_id,</if>
+            <if test="courseId != null">course_id,</if>
+            <if test="dimensionScores != null and dimensionScores != ''">dimension_scores,</if>
+            <if test="comprehensiveScore != null">comprehensive_score,</if>
+            <if test="evaluationContent != null">evaluation_content,</if>
+            <if test="evaluationTime != null">evaluation_time,</if>
+            <if test="auditStatus != null">audit_status,</if>
+            <if test="auditUserId != null">audit_user_id,</if>
+            <if test="auditTime != null">audit_time,</if>
+            <if test="auditRemark != null">audit_remark,</if>
+            <if test="isValid != null">is_valid,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recordId != null">#{recordId},</if>
+            <if test="configId != null">#{configId},</if>
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="scId != null and scId != ''">#{scId},</if>
+            <if test="teacherId != null and teacherId != ''">#{teacherId},</if>
+            <if test="courseId != null">#{courseId},</if>
+            <if test="dimensionScores != null and dimensionScores != ''">#{dimensionScores},</if>
+            <if test="comprehensiveScore != null">#{comprehensiveScore},</if>
+            <if test="evaluationContent != null">#{evaluationContent},</if>
+            <if test="evaluationTime != null">#{evaluationTime},</if>
+            <if test="auditStatus != null">#{auditStatus},</if>
+            <if test="auditUserId != null">#{auditUserId},</if>
+            <if test="auditTime != null">#{auditTime},</if>
+            <if test="auditRemark != null">#{auditRemark},</if>
+            <if test="isValid != null">#{isValid},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduTeacherEvaluationRecord" parameterType="EduTeacherEvaluationRecord">
+        update edu_teacher_evaluation_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="configId != null">config_id = #{configId},</if>
+            <if test="studentId != null and studentId != ''">student_id = #{studentId},</if>
+            <if test="scId != null and scId != ''">sc_id = #{scId},</if>
+            <if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="dimensionScores != null and dimensionScores != ''">dimension_scores = #{dimensionScores},</if>
+            <if test="comprehensiveScore != null">comprehensive_score = #{comprehensiveScore},</if>
+            <if test="evaluationContent != null">evaluation_content = #{evaluationContent},</if>
+            <if test="evaluationTime != null">evaluation_time = #{evaluationTime},</if>
+            <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+            <if test="auditUserId != null">audit_user_id = #{auditUserId},</if>
+            <if test="auditTime != null">audit_time = #{auditTime},</if>
+            <if test="auditRemark != null">audit_remark = #{auditRemark},</if>
+            <if test="isValid != null">is_valid = #{isValid},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where record_id = #{recordId}
+    </update>
+
+    <delete id="deleteEduTeacherEvaluationRecordByRecordId" parameterType="String">
+        delete from edu_teacher_evaluation_record where record_id = #{recordId}
+    </delete>
+
+    <delete id="deleteEduTeacherEvaluationRecordByRecordIds" parameterType="String">
+        delete from edu_teacher_evaluation_record where record_id in 
+        <foreach item="recordId" collection="array" open="(" separator="," close=")">
+            #{recordId}
+        </foreach>
+    </delete>
+</mapper>

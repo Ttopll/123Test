@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.academic.mapper.EduGrowthRecordMapper">
+    
+    <resultMap type="EduGrowthRecord" id="EduGrowthRecordResult">
+        <result property="recordId"    column="record_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="recordType"    column="record_type"    />
+        <result property="recordTitle"    column="record_title"    />
+        <result property="recordContent"    column="record_content"    />
+        <result property="relatedTime"    column="related_time"    />
+        <result property="attachUrl"    column="attach_url"    />
+        <result property="growthTrend"    column="growth_trend"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduGrowthRecordVo">
+        select record_id, student_id, record_type, record_title, record_content, related_time, attach_url, growth_trend, create_time, update_time, update_user_id, is_deleted from edu_growth_record
+    </sql>
+
+    <select id="selectEduGrowthRecordList" parameterType="EduGrowthRecord" resultMap="EduGrowthRecordResult">
+        <include refid="selectEduGrowthRecordVo"/>
+        <where>  
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="recordType != null "> and record_type = #{recordType}</if>
+            <if test="recordTitle != null  and recordTitle != ''"> and record_title = #{recordTitle}</if>
+            <if test="recordContent != null  and recordContent != ''"> and record_content = #{recordContent}</if>
+            <if test="relatedTime != null "> and related_time = #{relatedTime}</if>
+            <if test="attachUrl != null  and attachUrl != ''"> and attach_url = #{attachUrl}</if>
+            <if test="growthTrend != null  and growthTrend != ''"> and growth_trend = #{growthTrend}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduGrowthRecordByRecordId" parameterType="Long" resultMap="EduGrowthRecordResult">
+        <include refid="selectEduGrowthRecordVo"/>
+        where record_id = #{recordId}
+    </select>
+
+    <insert id="insertEduGrowthRecord" parameterType="EduGrowthRecord">
+        insert into edu_growth_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recordId != null">record_id,</if>
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="recordType != null">record_type,</if>
+            <if test="recordTitle != null and recordTitle != ''">record_title,</if>
+            <if test="recordContent != null">record_content,</if>
+            <if test="relatedTime != null">related_time,</if>
+            <if test="attachUrl != null">attach_url,</if>
+            <if test="growthTrend != null">growth_trend,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recordId != null">#{recordId},</if>
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="recordType != null">#{recordType},</if>
+            <if test="recordTitle != null and recordTitle != ''">#{recordTitle},</if>
+            <if test="recordContent != null">#{recordContent},</if>
+            <if test="relatedTime != null">#{relatedTime},</if>
+            <if test="attachUrl != null">#{attachUrl},</if>
+            <if test="growthTrend != null">#{growthTrend},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduGrowthRecord" parameterType="EduGrowthRecord">
+        update edu_growth_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null and studentId != ''">student_id = #{studentId},</if>
+            <if test="recordType != null">record_type = #{recordType},</if>
+            <if test="recordTitle != null and recordTitle != ''">record_title = #{recordTitle},</if>
+            <if test="recordContent != null">record_content = #{recordContent},</if>
+            <if test="relatedTime != null">related_time = #{relatedTime},</if>
+            <if test="attachUrl != null">attach_url = #{attachUrl},</if>
+            <if test="growthTrend != null">growth_trend = #{growthTrend},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where record_id = #{recordId}
+    </update>
+
+    <delete id="deleteEduGrowthRecordByRecordId" parameterType="Long">
+        delete from edu_growth_record where record_id = #{recordId}
+    </delete>
+
+    <delete id="deleteEduGrowthRecordByRecordIds" parameterType="String">
+        delete from edu_growth_record where record_id in 
+        <foreach item="recordId" collection="array" open="(" separator="," close=")">
+            #{recordId}
+        </foreach>
+    </delete>
+</mapper>

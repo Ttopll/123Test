@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.attendance.mapper.EduAttendanceDetailMapper">
+    
+    <resultMap type="EduAttendanceDetail" id="EduAttendanceDetailResult">
+        <result property="detailId"    column="detail_id"    />
+        <result property="attendId"    column="attend_id"    />
+        <result property="signType"    column="sign_type"    />
+        <result property="location"    column="location"    />
+        <result property="faceImage"    column="face_image"    />
+        <result property="fingerprintImage"    column="fingerprint_image"    />
+        <result property="qrCode"    column="qr_code"    />
+        <result property="deviceInfo"    column="device_info"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduAttendanceDetailVo">
+        select detail_id, attend_id, sign_type, location, face_image, fingerprint_image, qr_code, device_info, remark, create_time, update_time, update_user_id, is_deleted from edu_attendance_detail
+    </sql>
+
+    <select id="selectEduAttendanceDetailList" parameterType="EduAttendanceDetail" resultMap="EduAttendanceDetailResult">
+        <include refid="selectEduAttendanceDetailVo"/>
+        <where>  
+            <if test="attendId != null "> and attend_id = #{attendId}</if>
+            <if test="signType != null "> and sign_type = #{signType}</if>
+            <if test="location != null  and location != ''"> and location = #{location}</if>
+            <if test="faceImage != null  and faceImage != ''"> and face_image = #{faceImage}</if>
+            <if test="fingerprintImage != null  and fingerprintImage != ''"> and fingerprint_image = #{fingerprintImage}</if>
+            <if test="qrCode != null  and qrCode != ''"> and qr_code = #{qrCode}</if>
+            <if test="deviceInfo != null  and deviceInfo != ''"> and device_info = #{deviceInfo}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduAttendanceDetailByDetailId" parameterType="Long" resultMap="EduAttendanceDetailResult">
+        <include refid="selectEduAttendanceDetailVo"/>
+        where detail_id = #{detailId}
+    </select>
+
+    <insert id="insertEduAttendanceDetail" parameterType="EduAttendanceDetail">
+        insert into edu_attendance_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailId != null">detail_id,</if>
+            <if test="attendId != null">attend_id,</if>
+            <if test="signType != null">sign_type,</if>
+            <if test="location != null">location,</if>
+            <if test="faceImage != null">face_image,</if>
+            <if test="fingerprintImage != null">fingerprint_image,</if>
+            <if test="qrCode != null">qr_code,</if>
+            <if test="deviceInfo != null">device_info,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailId != null">#{detailId},</if>
+            <if test="attendId != null">#{attendId},</if>
+            <if test="signType != null">#{signType},</if>
+            <if test="location != null">#{location},</if>
+            <if test="faceImage != null">#{faceImage},</if>
+            <if test="fingerprintImage != null">#{fingerprintImage},</if>
+            <if test="qrCode != null">#{qrCode},</if>
+            <if test="deviceInfo != null">#{deviceInfo},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduAttendanceDetail" parameterType="EduAttendanceDetail">
+        update edu_attendance_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="attendId != null">attend_id = #{attendId},</if>
+            <if test="signType != null">sign_type = #{signType},</if>
+            <if test="location != null">location = #{location},</if>
+            <if test="faceImage != null">face_image = #{faceImage},</if>
+            <if test="fingerprintImage != null">fingerprint_image = #{fingerprintImage},</if>
+            <if test="qrCode != null">qr_code = #{qrCode},</if>
+            <if test="deviceInfo != null">device_info = #{deviceInfo},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where detail_id = #{detailId}
+    </update>
+
+    <delete id="deleteEduAttendanceDetailByDetailId" parameterType="Long">
+        delete from edu_attendance_detail where detail_id = #{detailId}
+    </delete>
+
+    <delete id="deleteEduAttendanceDetailByDetailIds" parameterType="String">
+        delete from edu_attendance_detail where detail_id in 
+        <foreach item="detailId" collection="array" open="(" separator="," close=")">
+            #{detailId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.affair.mapper.EduAffairApplyMapper">
+
+    <resultMap type="EduAffairApply" id="EduAffairApplyResult">
+        <result property="applyId"    column="apply_id"    />
+        <result property="affairTypeId"    column="affair_type_id"    />
+        <result property="applyUserId"    column="apply_user_id"    />
+        <result property="applyUserRole"    column="apply_user_role"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="attachUrls"    column="attach_urls"    />
+        <result property="signatureUrl"    column="signature_url"    />
+        <result property="applyTime"    column="apply_time"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="currentStatus"    column="current_status"    />
+        <result property="handleUserId"    column="handle_user_id"    />
+        <result property="expireTime"    column="expire_time"    />
+        <result property="cancelReason"    column="cancel_reason"    />
+        <result property="cancelTime"    column="cancel_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <!-- 优化：查询Vo默认添加is_deleted = 0，过滤已逻辑删除的数据 -->
+    <sql id="selectEduAffairApplyVo">
+        select apply_id, affair_type_id, apply_user_id, apply_user_role, title, content, attach_urls, signature_url,
+               apply_time,
+               start_time, end_time,
+               current_status, handle_user_id, expire_time, cancel_reason, cancel_time,
+               create_time, update_time, update_user_id, is_deleted
+        from edu_affair_apply
+        where is_deleted = 0
+    </sql>
+
+    <select id="selectEduAffairApplyList" parameterType="EduAffairApply" resultMap="EduAffairApplyResult">
+        <include refid="selectEduAffairApplyVo"/>
+        <where>
+            <if test="affairTypeId != null "> and affair_type_id = #{affairTypeId}</if>
+            <if test="applyUserId != null  and applyUserId != ''"> and apply_user_id = #{applyUserId}</if>
+            <if test="applyUserRole != null  and applyUserRole != ''"> and apply_user_role = #{applyUserRole}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="attachUrls != null  and attachUrls != ''"> and attach_urls = #{attachUrls}</if>
+            <if test="signatureUrl != null  and signatureUrl != ''"> and signature_url = #{signatureUrl}</if>
+            <if test="applyTime != null "> and apply_time = #{applyTime}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="currentStatus != null "> and current_status = #{currentStatus}</if>
+            <if test="handleUserId != null  and handleUserId != ''"> and handle_user_id = #{handleUserId}</if>
+            <if test="expireTime != null "> and expire_time = #{expireTime}</if>
+            <if test="cancelReason != null  and cancelReason != ''"> and cancel_reason = #{cancelReason}</if>
+            <if test="cancelTime != null "> and cancel_time = #{cancelTime}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+        </where>
+    </select>
+
+    <select id="selectEduAffairApplyByApplyId" parameterType="String" resultMap="EduAffairApplyResult">
+        <include refid="selectEduAffairApplyVo"/>
+        and apply_id = #{applyId}
+    </select>
+
+    <insert id="insertEduAffairApply" parameterType="EduAffairApply">
+        insert into edu_affair_apply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="applyId != null">apply_id,</if>
+            <if test="affairTypeId != null">affair_type_id,</if>
+            <if test="applyUserId != null and applyUserId != ''">apply_user_id,</if>
+            <if test="applyUserRole != null and applyUserRole != ''">apply_user_role,</if>
+            <if test="title != null and title != ''">title,</if>
+            <if test="content != null and content != ''">content,</if>
+            <if test="attachUrls != null">attach_urls,</if>
+            <if test="signatureUrl != null and signatureUrl != ''">signature_url,</if>
+            <if test="applyTime != null">apply_time,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="currentStatus != null">current_status,</if>
+            <if test="handleUserId != null">handle_user_id,</if>
+            <if test="expireTime != null">expire_time,</if>
+            <if test="cancelReason != null">cancel_reason,</if>
+            <if test="cancelTime != null">cancel_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <!-- 插入时默认设置is_deleted为0（未删除） -->
+            <if test="isDeleted == null">is_deleted,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="applyId != null">#{applyId},</if>
+            <if test="affairTypeId != null">#{affairTypeId},</if>
+            <if test="applyUserId != null and applyUserId != ''">#{applyUserId},</if>
+            <if test="applyUserRole != null and applyUserRole != ''">#{applyUserRole},</if>
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="content != null and content != ''">#{content},</if>
+            <if test="attachUrls != null">#{attachUrls},</if>
+            <if test="signatureUrl != null and signatureUrl != ''">#{signatureUrl},</if>
+            <if test="applyTime != null">#{applyTime},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="currentStatus != null">#{currentStatus},</if>
+            <if test="handleUserId != null">#{handleUserId},</if>
+            <if test="expireTime != null">#{expireTime},</if>
+            <if test="cancelReason != null">#{cancelReason},</if>
+            <if test="cancelTime != null">#{cancelTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <!-- 插入时默认值为0 -->
+            <if test="isDeleted == null">0,</if>
+        </trim>
+    </insert>
+
+    <update id="updateEduAffairApply" parameterType="EduAffairApply">
+        update edu_affair_apply
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="affairTypeId != null">affair_type_id = #{affairTypeId},</if>
+            <if test="applyUserId != null and applyUserId != ''">apply_user_id = #{applyUserId},</if>
+            <if test="applyUserRole != null and applyUserRole != ''">apply_user_role = #{applyUserRole},</if>
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="attachUrls != null">attach_urls = #{attachUrls},</if>
+            <if test="signatureUrl != null and signatureUrl != ''">signature_url = #{signatureUrl},</if>
+            <if test="applyTime != null">apply_time = #{applyTime},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="currentStatus != null">current_status = #{currentStatus},</if>
+            <if test="handleUserId != null">handle_user_id = #{handleUserId},</if>
+            <if test="expireTime != null">expire_time = #{expireTime},</if>
+            <if test="cancelReason != null">cancel_reason = #{cancelReason},</if>
+            <if test="cancelTime != null">cancel_time = #{cancelTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where apply_id = #{applyId}
+        <!-- 防止更新已逻辑删除的数据 -->
+        and is_deleted = 0
+    </update>
+
+    <!-- 单条逻辑删除：将is_deleted改为1，同时更新update_time和update_user_id -->
+    <update id="deleteEduAffairApplyByApplyId" parameterType="String">
+        update edu_affair_apply
+        set is_deleted = 1,
+            update_time = CURRENT_TIMESTAMP,
+            update_user_id = #{updateUserId}
+        where apply_id = #{applyId}
+          and is_deleted = 0
+    </update>
+
+    <!-- 批量逻辑删除：将is_deleted改为1 -->
+    <update id="deleteEduAffairApplyByApplyIds" parameterType="String">
+        update edu_affair_apply
+        set is_deleted = 1,
+        update_time = CURRENT_TIMESTAMP,
+        update_user_id = #{updateUserId}
+        where apply_id in
+        <foreach item="applyId" collection="array" open="(" separator="," close=")">
+            #{applyId}
+        </foreach>
+        and is_deleted = 0
+    </update>
+</mapper>

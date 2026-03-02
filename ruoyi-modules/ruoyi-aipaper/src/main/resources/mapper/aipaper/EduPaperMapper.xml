@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.aipaper.mapper.EduPaperMapper">
+    
+    <resultMap type="EduPaper" id="EduPaperResult">
+        <result property="paperId"    column="paper_id"    />
+        <result property="paperName"    column="paper_name"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="totalScore"    column="total_score"    />
+        <result property="examTime"    column="exam_time"    />
+        <result property="questionIds"    column="question_ids"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="auditStatus"    column="audit_status"    />
+        <result property="auditorId"    column="auditor_id"    />
+        <result property="auditTime"    column="audit_time"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduPaperVo">
+        select paper_id, paper_name, course_id, total_score, exam_time, question_ids, create_user_id, audit_status, auditor_id, audit_time, status, create_time, update_time, update_user_id, is_deleted from edu_paper
+    </sql>
+
+    <select id="selectEduPaperList" parameterType="EduPaper" resultMap="EduPaperResult">
+        <include refid="selectEduPaperVo"/>
+        <where>  
+            <if test="paperName != null  and paperName != ''"> and paper_name like concat('%', #{paperName}, '%')</if>
+            <if test="courseId != null "> and course_id = #{courseId}</if>
+            <if test="totalScore != null "> and total_score = #{totalScore}</if>
+            <if test="examTime != null "> and exam_time = #{examTime}</if>
+            <if test="questionIds != null  and questionIds != ''"> and question_ids = #{questionIds}</if>
+            <if test="createUserId != null  and createUserId != ''"> and create_user_id = #{createUserId}</if>
+            <if test="auditStatus != null "> and audit_status = #{auditStatus}</if>
+            <if test="auditorId != null  and auditorId != ''"> and auditor_id = #{auditorId}</if>
+            <if test="auditTime != null "> and audit_time = #{auditTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduPaperByPaperId" parameterType="Long" resultMap="EduPaperResult">
+        <include refid="selectEduPaperVo"/>
+        where paper_id = #{paperId}
+    </select>
+
+    <insert id="insertEduPaper" parameterType="EduPaper">
+        insert into edu_paper
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="paperId != null">paper_id,</if>
+            <if test="paperName != null and paperName != ''">paper_name,</if>
+            <if test="courseId != null">course_id,</if>
+            <if test="totalScore != null">total_score,</if>
+            <if test="examTime != null">exam_time,</if>
+            <if test="questionIds != null and questionIds != ''">question_ids,</if>
+            <if test="createUserId != null and createUserId != ''">create_user_id,</if>
+            <if test="auditStatus != null">audit_status,</if>
+            <if test="auditorId != null and auditorId != ''">auditor_id,</if>
+            <if test="auditTime != null">audit_time,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="paperId != null">#{paperId},</if>
+            <if test="paperName != null and paperName != ''">#{paperName},</if>
+            <if test="courseId != null">#{courseId},</if>
+            <if test="totalScore != null">#{totalScore},</if>
+            <if test="examTime != null">#{examTime},</if>
+            <if test="questionIds != null and questionIds != ''">#{questionIds},</if>
+            <if test="createUserId != null and createUserId != ''">#{createUserId},</if>
+            <if test="auditStatus != null">#{auditStatus},</if>
+            <if test="auditorId != null and auditorId != ''">#{auditorId},</if>
+            <if test="auditTime != null">#{auditTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduPaper" parameterType="EduPaper">
+        update edu_paper
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="paperName != null and paperName != ''">paper_name = #{paperName},</if>
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="totalScore != null">total_score = #{totalScore},</if>
+            <if test="examTime != null">exam_time = #{examTime},</if>
+            <if test="questionIds != null and questionIds != ''">question_ids = #{questionIds},</if>
+            <if test="createUserId != null and createUserId != ''">create_user_id = #{createUserId},</if>
+            <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+            <if test="auditorId != null and auditorId != ''">auditor_id = #{auditorId},</if>
+            <if test="auditTime != null">audit_time = #{auditTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where paper_id = #{paperId}
+    </update>
+
+    <delete id="deleteEduPaperByPaperId" parameterType="Long">
+        delete from edu_paper where paper_id = #{paperId}
+    </delete>
+
+    <delete id="deleteEduPaperByPaperIds" parameterType="String">
+        delete from edu_paper where paper_id in 
+        <foreach item="paperId" collection="array" open="(" separator="," close=")">
+            #{paperId}
+        </foreach>
+    </delete>
+</mapper>

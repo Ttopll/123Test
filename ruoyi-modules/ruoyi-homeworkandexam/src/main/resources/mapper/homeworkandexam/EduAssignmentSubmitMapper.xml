@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.homeworkandexam.mapper.EduAssignmentSubmitMapper">
+    
+    <resultMap type="EduAssignmentSubmit" id="EduAssignmentSubmitResult">
+        <result property="submitId"    column="submit_id"    />
+        <result property="assignId"    column="assign_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="content"    column="content"    />
+        <result property="fileUrl"    column="file_url"    />
+        <result property="submitTime"    column="submit_time"    />
+        <result property="correctStatus"    column="correct_status"    />
+        <result property="score"    column="score"    />
+        <result property="correctRemark"    column="correct_remark"    />
+        <result property="correctTime"    column="correct_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduAssignmentSubmitVo">
+        select submit_id, assign_id, student_id, content, file_url, submit_time, correct_status, score, correct_remark, correct_time, create_time, update_time, update_user_id, is_deleted from edu_assignment_submit
+    </sql>
+
+    <select id="selectEduAssignmentSubmitList" parameterType="EduAssignmentSubmit" resultMap="EduAssignmentSubmitResult">
+        <include refid="selectEduAssignmentSubmitVo"/>
+        <where>  
+            <if test="assignId != null "> and assign_id = #{assignId}</if>
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
+            <if test="submitTime != null "> and submit_time = #{submitTime}</if>
+            <if test="correctStatus != null "> and correct_status = #{correctStatus}</if>
+            <if test="score != null "> and score = #{score}</if>
+            <if test="correctRemark != null  and correctRemark != ''"> and correct_remark = #{correctRemark}</if>
+            <if test="correctTime != null "> and correct_time = #{correctTime}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduAssignmentSubmitBySubmitId" parameterType="Long" resultMap="EduAssignmentSubmitResult">
+        <include refid="selectEduAssignmentSubmitVo"/>
+        where submit_id = #{submitId}
+    </select>
+
+    <insert id="insertEduAssignmentSubmit" parameterType="EduAssignmentSubmit">
+        insert into edu_assignment_submit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="submitId != null">submit_id,</if>
+            <if test="assignId != null">assign_id,</if>
+            <if test="studentId != null and studentId != ''">student_id,</if>
+            <if test="content != null">content,</if>
+            <if test="fileUrl != null">file_url,</if>
+            <if test="submitTime != null">submit_time,</if>
+            <if test="correctStatus != null">correct_status,</if>
+            <if test="score != null">score,</if>
+            <if test="correctRemark != null">correct_remark,</if>
+            <if test="correctTime != null">correct_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="submitId != null">#{submitId},</if>
+            <if test="assignId != null">#{assignId},</if>
+            <if test="studentId != null and studentId != ''">#{studentId},</if>
+            <if test="content != null">#{content},</if>
+            <if test="fileUrl != null">#{fileUrl},</if>
+            <if test="submitTime != null">#{submitTime},</if>
+            <if test="correctStatus != null">#{correctStatus},</if>
+            <if test="score != null">#{score},</if>
+            <if test="correctRemark != null">#{correctRemark},</if>
+            <if test="correctTime != null">#{correctTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduAssignmentSubmit" parameterType="EduAssignmentSubmit">
+        update edu_assignment_submit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="assignId != null">assign_id = #{assignId},</if>
+            <if test="studentId != null and studentId != ''">student_id = #{studentId},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="fileUrl != null">file_url = #{fileUrl},</if>
+            <if test="submitTime != null">submit_time = #{submitTime},</if>
+            <if test="correctStatus != null">correct_status = #{correctStatus},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="correctRemark != null">correct_remark = #{correctRemark},</if>
+            <if test="correctTime != null">correct_time = #{correctTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where submit_id = #{submitId}
+    </update>
+
+    <delete id="deleteEduAssignmentSubmitBySubmitId" parameterType="Long">
+        delete from edu_assignment_submit where submit_id = #{submitId}
+    </delete>
+
+    <delete id="deleteEduAssignmentSubmitBySubmitIds" parameterType="String">
+        delete from edu_assignment_submit where submit_id in 
+        <foreach item="submitId" collection="array" open="(" separator="," close=")">
+            #{submitId}
+        </foreach>
+    </delete>
+</mapper>

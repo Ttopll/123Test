@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.classSchedule.mapper.EduTimetableRuleMapper">
+    
+    <resultMap type="EduTimetableRule" id="EduTimetableRuleResult">
+        <result property="ruleId"    column="rule_id"    />
+        <result property="ruleName"    column="rule_name"    />
+        <result property="ruleType"    column="rule_type"    />
+        <result property="ruleContent"    column="rule_content"    />
+        <result property="ruleDesc"    column="rule_desc"    />
+        <result property="semester"    column="semester"    />
+        <result property="status"    column="status"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduTimetableRuleVo">
+        select rule_id, rule_name, rule_type, rule_content, rule_desc, semester, status, create_user_id, create_time, update_time, update_user_id, is_deleted from edu_timetable_rule
+    </sql>
+
+    <select id="selectEduTimetableRuleList" parameterType="EduTimetableRule" resultMap="EduTimetableRuleResult">
+        <include refid="selectEduTimetableRuleVo"/>
+        <where>  
+            <if test="ruleName != null  and ruleName != ''"> and rule_name like concat('%', #{ruleName}, '%')</if>
+            <if test="ruleType != null "> and rule_type = #{ruleType}</if>
+            <if test="ruleContent != null  and ruleContent != ''"> and rule_content = #{ruleContent}</if>
+            <if test="ruleDesc != null  and ruleDesc != ''"> and rule_desc = #{ruleDesc}</if>
+            <if test="semester != null  and semester != ''"> and semester = #{semester}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="createUserId != null  and createUserId != ''"> and create_user_id = #{createUserId}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduTimetableRuleByRuleId" parameterType="Long" resultMap="EduTimetableRuleResult">
+        <include refid="selectEduTimetableRuleVo"/>
+        where rule_id = #{ruleId}
+    </select>
+
+    <insert id="insertEduTimetableRule" parameterType="EduTimetableRule" useGeneratedKeys="true" keyProperty="ruleId">
+        insert into edu_timetable_rule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ruleName != null and ruleName != ''">rule_name,</if>
+            <if test="ruleType != null">rule_type,</if>
+            <if test="ruleContent != null and ruleContent != ''">rule_content,</if>
+            <if test="ruleDesc != null">rule_desc,</if>
+            <if test="semester != null and semester != ''">semester,</if>
+            <if test="status != null">status,</if>
+            <if test="createUserId != null and createUserId != ''">create_user_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ruleName != null and ruleName != ''">#{ruleName},</if>
+            <if test="ruleType != null">#{ruleType},</if>
+            <if test="ruleContent != null and ruleContent != ''">#{ruleContent},</if>
+            <if test="ruleDesc != null">#{ruleDesc},</if>
+            <if test="semester != null and semester != ''">#{semester},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createUserId != null and createUserId != ''">#{createUserId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduTimetableRule" parameterType="EduTimetableRule">
+        update edu_timetable_rule
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ruleName != null and ruleName != ''">rule_name = #{ruleName},</if>
+            <if test="ruleType != null">rule_type = #{ruleType},</if>
+            <if test="ruleContent != null and ruleContent != ''">rule_content = #{ruleContent},</if>
+            <if test="ruleDesc != null">rule_desc = #{ruleDesc},</if>
+            <if test="semester != null and semester != ''">semester = #{semester},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createUserId != null and createUserId != ''">create_user_id = #{createUserId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where rule_id = #{ruleId}
+    </update>
+
+    <delete id="deleteEduTimetableRuleByRuleId" parameterType="Long">
+        delete from edu_timetable_rule where rule_id = #{ruleId}
+    </delete>
+
+    <delete id="deleteEduTimetableRuleByRuleIds" parameterType="String">
+        delete from edu_timetable_rule where rule_id in 
+        <foreach item="ruleId" collection="array" open="(" separator="," close=")">
+            #{ruleId}
+        </foreach>
+    </delete>
+</mapper>

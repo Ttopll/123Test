@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.classSchedule.mapper.EduClassroomMapper">
+    
+    <resultMap type="EduClassroom" id="EduClassroomResult">
+        <result property="classroomId"    column="classroom_id"    />
+        <result property="classroomName"    column="classroom_name"    />
+        <result property="building"    column="building"    />
+        <result property="floor"    column="floor"    />
+        <result property="capacity"    column="capacity"    />
+        <result property="classroomType"    column="classroom_type"    />
+        <result property="equipment"    column="equipment"    />
+        <result property="availableStatus"    column="available_status"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectEduClassroomVo">
+        select classroom_id, classroom_name, building, floor, capacity, classroom_type, equipment, available_status, remark, create_time, update_time, update_user_id, is_deleted from edu_classroom
+    </sql>
+
+    <select id="selectEduClassroomList" parameterType="EduClassroom" resultMap="EduClassroomResult">
+        <include refid="selectEduClassroomVo"/>
+        <where>  
+            <if test="classroomName != null  and classroomName != ''"> and classroom_name like concat('%', #{classroomName}, '%')</if>
+            <if test="building != null  and building != ''"> and building = #{building}</if>
+            <if test="floor != null "> and floor = #{floor}</if>
+            <if test="capacity != null "> and capacity = #{capacity}</if>
+            <if test="classroomType != null "> and classroom_type = #{classroomType}</if>
+            <if test="equipment != null  and equipment != ''"> and equipment = #{equipment}</if>
+            <if test="availableStatus != null "> and available_status = #{availableStatus}</if>
+            <if test="updateUserId != null  and updateUserId != ''"> and update_user_id = #{updateUserId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduClassroomByClassroomId" parameterType="Long" resultMap="EduClassroomResult">
+        <include refid="selectEduClassroomVo"/>
+        where classroom_id = #{classroomId}
+    </select>
+
+    <insert id="insertEduClassroom" parameterType="EduClassroom" useGeneratedKeys="true" keyProperty="classroomId">
+        insert into edu_classroom
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="classroomName != null and classroomName != ''">classroom_name,</if>
+            <if test="building != null and building != ''">building,</if>
+            <if test="floor != null">floor,</if>
+            <if test="capacity != null">capacity,</if>
+            <if test="classroomType != null">classroom_type,</if>
+            <if test="equipment != null">equipment,</if>
+            <if test="availableStatus != null">available_status,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="classroomName != null and classroomName != ''">#{classroomName},</if>
+            <if test="building != null and building != ''">#{building},</if>
+            <if test="floor != null">#{floor},</if>
+            <if test="capacity != null">#{capacity},</if>
+            <if test="classroomType != null">#{classroomType},</if>
+            <if test="equipment != null">#{equipment},</if>
+            <if test="availableStatus != null">#{availableStatus},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">#{updateUserId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduClassroom" parameterType="EduClassroom">
+        update edu_classroom
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="classroomName != null and classroomName != ''">classroom_name = #{classroomName},</if>
+            <if test="building != null and building != ''">building = #{building},</if>
+            <if test="floor != null">floor = #{floor},</if>
+            <if test="capacity != null">capacity = #{capacity},</if>
+            <if test="classroomType != null">classroom_type = #{classroomType},</if>
+            <if test="equipment != null">equipment = #{equipment},</if>
+            <if test="availableStatus != null">available_status = #{availableStatus},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where classroom_id = #{classroomId}
+    </update>
+
+    <delete id="deleteEduClassroomByClassroomId" parameterType="Long">
+        delete from edu_classroom where classroom_id = #{classroomId}
+    </delete>
+
+    <delete id="deleteEduClassroomByClassroomIds" parameterType="String">
+        delete from edu_classroom where classroom_id in 
+        <foreach item="classroomId" collection="array" open="(" separator="," close=")">
+            #{classroomId}
+        </foreach>
+    </delete>
+</mapper>
