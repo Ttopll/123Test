@@ -108,9 +108,8 @@ pipeline {
         stage('Build') {
 			steps {
 				echo ">>> 正在构建项目 (这可能需要几分钟)..."
-                // 在根目录执行 maven 打包，这样会自动安装 common 和 api 模块到本地仓库
-                // 否则单独构建子模块会报错找不到依赖
                 sh 'mvn clean package -DskipTests'
+                sh "ls -l ${JAR_SOURCE} || echo '⚠️ Jar包路径不存在，请检查路径配置'"
             }
         }
 
@@ -119,38 +118,59 @@ pipeline {
 			steps {
 				script {
 					env.DEPLOY_DIR = "${BASE_DEPLOY_PATH}/${params.SERVICE_NAME}"
-
-                    withEnv(['JENKINS_NODE_COOKIE=dontKillMe']) {
+                    // 核心修改1：添加超时参数，关闭心跳检测
+                    withEnv(['JENKINS_NODE_COOKIE=dontKillMe', "${DURABLE_TASK_TIMEOUT}"]) {
 						sh '''
-                            echo ">>> 准备部署 ${SERVICE_NAME} ..."
-
-                            # 1. 创建目录
+                            set -e  # 开启严格模式，任意命令失败立即退出
+                            echo ">>> 准备部署 ${SERVICE_NAME} ... [步骤1/5]"
+                            # 1. 创建部署目录（添加输出）
+                            echo ">>> 步骤1/5：创建部署目录 ${DEPLOY_DIR} ..."
                             mkdir -p ${DEPLOY_DIR}
+                            echo ">>> 步骤1/5：目录创建完成"
 
-                            # 2. 检查并停止旧进程
-                            echo ">>> 检查端口 ${APP_PORT} ..."
+                            # 2. 检查并停止旧进程（添加输出）
+                            echo ">>> 步骤2/5：检查端口 ${APP_PORT} 占用情况 ..."
                             pid=$(lsof -t -i:${APP_PORT}) || true
                             if [ -n "$pid" ]; then
-                                echo ">>> 发现旧进程 PID: $pid，正在停止..."
+                                echo ">>> 步骤2/5：发现旧进程 PID: $pid，正在停止..."
                                 kill -9 $pid
+                                sleep 1  # 等待进程退出
+                                echo ">>> 步骤2/5：旧进程已停止"
                             else
-                                echo ">>> 端口 ${APP_PORT} 未被占用"
+                                echo ">>> 步骤2/5：端口 ${APP_PORT} 未被占用"
                             fi
 
-                            # 3. 拷贝 Jar 包 (使用 cp 拷贝，覆盖旧文件)
-                            # 注意：JAR_SOURCE 里包含了通配符 *，shell 会自动识别
-                            echo ">>> 正在拷贝 Jar 包..."
+                            # 3. 拷贝Jar包（添加输出）
+                            echo ">>> 步骤3/5：检查Jar包 ${JAR_SOURCE} 是否存在 ..."
+                            if [ ! -f ${JAR_SOURCE} ]; then
+                                echo "❌ 步骤3/5：Jar包文件 ${JAR_SOURCE} 不存在！"
+                                exit 1
+                            fi
+                            echo ">>> 步骤3/5：删除旧Jar包 ${DEPLOY_DIR}/${JAR_NAME} ..."
                             rm -f ${DEPLOY_DIR}/${JAR_NAME}
+                            echo ">>> 步骤3/5：拷贝新Jar包到部署目录 ..."
                             cp ${JAR_SOURCE} ${DEPLOY_DIR}/${JAR_NAME}
+                            echo ">>> 步骤3/5：Jar包拷贝完成"
 
-                            # 4. 启动服务
+                            # 4. 启动服务（核心修改2：优化nohup，脱离Jenkins进程树）
+                            echo ">>> 步骤4/5：切换到部署目录 ${DEPLOY_DIR} ..."
                             cd ${DEPLOY_DIR}
-                            echo ">>> 正在启动服务 (内存限制: ${JAVA_OPTS})..."
+                            echo ">>> 步骤4/5：启动服务（内存参数：${JAVA_OPTS}）..."
+                            # 用nohup + setsid 彻底脱离Jenkins进程树，避免被误杀
+                            nohup setsid java ${JAVA_OPTS} -jar ${JAR_NAME} --server.port=${APP_PORT} > app.log 2>&1 &
+                            sleep 2  # 等待服务启动（短延时）
+                            echo ">>> 步骤4/5：启动命令已发送"
 
-                            # 启动命令：后台运行 + 限制内存 + 指定端口 + 日志输出
-                            nohup java ${JAVA_OPTS} -jar ${JAR_NAME} --server.port=${APP_PORT} > app.log 2>&1 &
-
-                            echo ">>> ${SERVICE_NAME} 启动命令已发送，请稍后检查 app.log"
+                            # 5. 验证启动（添加输出，完成心跳）
+                            echo ">>> 步骤5/5：验证服务是否启动 ..."
+                            new_pid=$(lsof -t -i:${APP_PORT}) || true
+                            if [ -n "$new_pid" ]; then
+                                echo "✅ ${SERVICE_NAME} 部署成功！PID: $new_pid"
+                                echo "✅ 日志查看命令：tail -f ${DEPLOY_DIR}/app.log"
+                            else
+                                echo "⚠️ ${SERVICE_NAME} 启动命令已执行，但端口 ${APP_PORT} 未检测到进程！"
+                                echo "⚠️ 请查看日志：cat ${DEPLOY_DIR}/app.log"
+                            fi
                         '''
                     }
                 }
