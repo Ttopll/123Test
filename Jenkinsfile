@@ -19,8 +19,8 @@ pipeline {
 
     environment {
 		// Git 配置 (请修改这里)
-        CREDENTIAL_ID = 'Gitee-token'  //  Gitee 凭据ID
-        GIT_URL = 'https://gitee.com/wu_h10/training-projectsbackend.git' // 仓库地址
+        CREDENTIAL_ID = 'finance'  //  Gitee 凭据ID
+        GIT_URL = 'https://github.com/Ttopll/123Test.git' // 仓库地址
 
         // 部署根目录
         BASE_DEPLOY_PATH = '/home/jenkins/deploy/ruoyi-cloud'
