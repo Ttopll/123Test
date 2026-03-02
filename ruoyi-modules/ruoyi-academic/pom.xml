@@ -73,6 +73,22 @@
             <artifactId>ruoyi-common-swagger</artifactId>
         </dependency>
 
+
+        <!-- 补充Spring Security核心依赖，解决编译找不到包的问题 -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+        </dependency>
+        <!-- 若项目使用了Spring Security的配置，可补充此依赖（可选） -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
