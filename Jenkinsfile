@@ -119,7 +119,7 @@ pipeline {
 				script {
 					env.DEPLOY_DIR = "${BASE_DEPLOY_PATH}/${params.SERVICE_NAME}"
                     // 核心修改1：添加超时参数，关闭心跳检测
-                    withEnv(['JENKINS_NODE_COOKIE=dontKillMe', "${DURABLE_TASK_TIMEOUT}"]) {
+                    withEnv(['JENKINS_NODE_COOKIE=dontKillMe']) {
 						sh '''
                             set -e  # 开启严格模式，任意命令失败立即退出
                             echo ">>> 准备部署 ${SERVICE_NAME} ... [步骤1/5]"
