@@ -98,10 +98,11 @@ pipeline {
                 echo ">>> 检查服务器依赖（lsof）..."
                 sh '''
                     if ! command -v lsof &> /dev/null; then
-                        echo "⚠️ lsof未安装，正在自动安装..."
-                        sudo yum install lsof -y || sudo apt install lsof -y
+                        echo "❌ lsof未安装，请手动执行：sudo yum install lsof -y"
+                        exit 1
+                    else
+                        echo "✅ lsof依赖检查完成"
                     fi
-                    echo "✅ lsof依赖检查完成"
                 '''
             }
         }
