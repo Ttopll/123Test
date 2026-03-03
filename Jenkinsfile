@@ -3,8 +3,8 @@ pipeline {
 
     tools {
         // 这里的名称必须和 Jenkins "全局工具配置" (Global Tool Configuration) 中设置的一致
-        maven 'maven3'
-        jdk 'jdk8'
+        maven 'Maven3'
+        jdk 'JDK8'
     }
 
     parameters {
