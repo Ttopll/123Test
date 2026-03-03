@@ -27,9 +27,10 @@ pipeline {
         DEPLOY_ROOT = '/data/projects/ruoyi-cloud'
 
         // Gitee 凭证ID (在 Jenkins 凭证管理里添加)
-        GIT_CREDENTIAL_ID = 'your-gitee-credentials-id'
+        CREDENTIAL_ID = 'finance'
         // Gitee 仓库地址
-        GIT_URL = 'https://gitee.com/your-group/your-repo.git'
+        GIT_URL = 'https://github.com/Ttopll/123Test.git'
+        JAVA_OPTS = "-Xms128m -Xmx512m"
     }
 
     stages {
@@ -86,7 +87,7 @@ pipeline {
         stage('拉取代码') {
             steps {
                 checkout([$class: 'GitSCM',
-                          branches: [[name: '*/master']], // 默认拉取 master 分支
+                          branches: [[name: '*/Test']], // 默认拉取 master 分支
                           userRemoteConfigs: [[credentialsId: "${env.GIT_CREDENTIAL_ID}", url: "${env.GIT_URL}"]]])
             }
         }
