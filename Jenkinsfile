@@ -97,11 +97,12 @@ pipeline {
             steps {
                 echo ">>> 检查服务器依赖（lsof）..."
                 sh '''
-                    if ! command -v lsof &> /dev/null; then
+                    # 正确逻辑：先检查lsof是否存在
+                    if command -v lsof &> /dev/null; then
+                        echo "✅ lsof依赖检查完成"
+                    else
                         echo "❌ lsof未安装，请手动执行：sudo yum install lsof -y"
                         exit 1
-                    else
-                        echo "✅ lsof依赖检查完成"
                     fi
                 '''
             }
