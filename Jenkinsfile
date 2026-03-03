@@ -133,38 +133,41 @@ pipeline {
                     withEnv(['JENKINS_NODE_COOKIE=dontKillMe']) {
                         sh '''
                             set -e
-                            # 优化心跳函数：非阻塞，每0.1秒输出一次
+                            # 修复：用步骤名称作为停止文件标识，避免PID匹配错误
                             keep_alive() {
                                 local step_name=$1
-                                local stop_flag="/tmp/keep_alive_${$}.stop"
-                                # 后台持续输出心跳，直到检测到停止文件
+                                local stop_flag="/tmp/keep_alive_${step_name}.stop"
+                                # 删除旧的停止文件（避免残留）
+                                rm -f "$stop_flag"
+                                # 后台心跳进程：检测到停止文件就退出
                                 (
                                     while [ ! -f "$stop_flag" ]; do
                                         echo "🫀 部署中（步骤：${step_name}）- $(date +%Y%m%d_%H%M%S_%3N)"
                                         sleep 0.1
                                     done
-                                    rm -f "$stop_flag"
+                                    rm -f "$stop_flag"  # 清理停止文件
                                 ) &
-                                echo $!  # 返回后台进程PID
+                                echo $!  # 返回后台进程PID，用于后续kill
                             }
 
-                            # 停止心跳函数
+                            # 停止心跳：创建对应步骤的停止文件
                             stop_keep_alive() {
-                                local pid=$1
-                                local stop_flag="/tmp/keep_alive_${pid}.stop"
-                                touch "$stop_flag"
-                                wait $pid 2>/dev/null || true
+                                local step_name=$1
+                                local pid=$2
+                                local stop_flag="/tmp/keep_alive_${step_name}.stop"
+                                touch "$stop_flag"  # 创建停止文件，触发心跳进程退出
+                                wait $pid 2>/dev/null || true  # 等待心跳进程正常退出
                             }
 
                             echo ">>> 准备部署 ${SERVICE_NAME} ... [步骤1/5]"
-                            # 步骤1：创建部署目录（启动高频心跳）
+                            # 步骤1：创建部署目录（启动心跳，传入步骤名称）
                             HB_PID=$(keep_alive "创建部署目录")
                             echo ">>> 步骤1/5：创建部署目录 ${DEPLOY_DIR} ..."
                             mkdir -p ${DEPLOY_DIR}
                             echo ">>> 步骤1/5：目录创建完成 ✔️"
-                            stop_keep_alive $HB_PID
+                            stop_keep_alive "创建部署目录" $HB_PID  # 停止心跳，传入步骤名称+PID
 
-                            # 步骤2：检查并停止旧进程（核心修复：用循环替代sleep 1）
+                            # 步骤2：检查并停止旧进程（核心修复：循环替代sleep 1）
                             HB_PID=$(keep_alive "停止旧进程")
                             echo ">>> 步骤2/5：检查端口 ${APP_PORT} 占用情况 ..."
                             pid=$(lsof -t -i:${APP_PORT}) || true
@@ -172,7 +175,7 @@ pipeline {
                                 echo ">>> 步骤2/5：发现旧进程 PID: $pid，正在停止..."
                                 kill -9 $pid
                                 echo ">>> 步骤2/5：旧进程 $pid 已发送终止信号 ✔️"
-                                # 替代sleep 1：循环10次（每次0.1秒），每次都有心跳输出
+                                # 拆分sleep 1为10次0.1秒，避免长阻塞
                                 for ((i=1; i<=10; i++)); do
                                     echo ">>> 步骤2/5：等待进程退出（第${i}/10次）..."
                                     sleep 0.1
@@ -182,14 +185,14 @@ pipeline {
                             else
                                 echo ">>> 步骤2/5：端口 ${APP_PORT} 未被占用 ✔️"
                             fi
-                            stop_keep_alive $HB_PID
+                            stop_keep_alive "停止旧进程" $HB_PID
 
                             # 步骤3：拷贝Jar包
                             HB_PID=$(keep_alive "拷贝Jar包")
                             echo ">>> 步骤3/5：检查Jar包 ${JAR_SOURCE} 是否存在 ..."
                             if [ ! -f ${JAR_SOURCE} ]; then
                                 echo "❌ 步骤3/5：Jar包文件 ${JAR_SOURCE} 不存在！"
-                                stop_keep_alive $HB_PID
+                                stop_keep_alive "拷贝Jar包" $HB_PID
                                 exit 1
                             fi
                             echo ">>> 步骤3/5：删除旧Jar包 ${DEPLOY_DIR}/${JAR_NAME} ..."
@@ -197,7 +200,7 @@ pipeline {
                             echo ">>> 步骤3/5：拷贝新Jar包到部署目录 ..."
                             cp ${JAR_SOURCE} ${DEPLOY_DIR}/${JAR_NAME}
                             echo ">>> 步骤3/5：Jar包拷贝完成 ✔️"
-                            stop_keep_alive $HB_PID
+                            stop_keep_alive "拷贝Jar包" $HB_PID
 
                             # 步骤4：启动服务
                             HB_PID=$(keep_alive "启动服务")
@@ -206,9 +209,9 @@ pipeline {
                             echo ">>> 步骤4/5：启动服务（内存参数：${JAVA_OPTS}）..."
                             nohup setsid java ${JAVA_OPTS} -jar ${JAR_NAME} --server.port=${APP_PORT} > app.log 2>&1 &
                             echo ">>> 步骤4/5：启动命令已发送 ✔️"
-                            stop_keep_alive $HB_PID
+                            stop_keep_alive "启动服务" $HB_PID
 
-                            # 步骤5：验证启动（替代sleep 2：循环20次，每次0.1秒）
+                            # 步骤5：验证启动
                             HB_PID=$(keep_alive "验证启动")
                             echo ">>> 步骤5/5：验证服务是否启动（超时${START_TIMEOUT}秒）..."
                             start_time=$(date +%s)
@@ -219,10 +222,9 @@ pipeline {
                                     break
                                 fi
                                 echo ">>> 步骤5/5：等待服务启动...（已等待$(( $(date +%s) - start_time ))秒）"
-                                # 每次等待0.1秒，高频输出避免超时
                                 sleep 0.1
                             done
-                            stop_keep_alive $HB_PID
+                            stop_keep_alive "验证启动" $HB_PID
 
                             # 最终验证
                             if [ -n "$new_pid" ]; then
