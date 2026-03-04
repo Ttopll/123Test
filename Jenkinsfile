@@ -27,7 +27,7 @@ pipeline {
         DEPLOY_ROOT = '/data/projects/ruoyi-cloud'
 
         // Gitee 凭证ID (在 Jenkins 凭证管理里添加)
-        CREDENTIAL_ID = 'gitee-ssh-key'
+        CREDENTIAL_ID = 'github-ssh-key'
         // Gitee 仓库地址
         GIT_URL = 'git@github.com:Ttopll/123Test.git'
         JAVA_OPTS = "-Xms128m -Xmx512m"
