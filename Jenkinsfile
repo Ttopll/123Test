@@ -85,12 +85,13 @@ pipeline {
         }
 
         stage('拉取代码') {
-            steps {
-                checkout([$class: 'GitSCM',
-                          branches: [[name: '*/Test']], // 默认拉取 master 分支
-                          userRemoteConfigs: [[credentialsId: "${env.GIT_CREDENTIAL_ID}", url: "${env.GIT_URL}"]]])
-            }
-        }
+                    steps {
+                        // 简写模式：自动使用当前流水线配置的 Git 地址和凭证
+                        checkout scmGit(branches: [[name: '*/Test']],
+                                        userRemoteConfigs: [[credentialsId: "${env.CREDENTIAL_ID}", url: "${env.GIT_URL}"]])
+
+                    }
+                }
 
         stage('Maven构建') {
             steps {
